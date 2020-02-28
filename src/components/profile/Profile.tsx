@@ -1,14 +1,13 @@
 import React from 'react';
 
-class Header extends React.Component {
-
+class Profile extends React.Component {
   render() {
     return (
       <div>
-      
+        LOGGA IN
       </div>
     )
   };
 }
 
-export default Header
+export default Profile

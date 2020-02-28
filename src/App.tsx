@@ -1,8 +1,14 @@
 import React from "react";
-import Home from "./containers/home/Home"
+import Main from "./containers/main/Main";
+import Header from "./containers/header/Header";
 
 function App() {
-  return <Home />;
+  return (
+    <div>
+      <Header />
+      <Main />
+    </div>
+  );
 }
 
 export default App;
