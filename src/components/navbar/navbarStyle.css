@@ -1,0 +1,18 @@
+ul {
+    list-style-type: none;
+    padding: 0;
+    color: rgba(228, 228, 228, 0.808);
+    margin: 0 auto;
+    width: 70%;
+    margin-top: 2rem;
+}
+
+li {
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+}
+
+hr {
+    margin-bottom: 1.5rem;
+    border-color: rgba(228, 228, 228, 0.164);
+}
