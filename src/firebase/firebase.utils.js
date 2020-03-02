@@ -4,7 +4,7 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const config = {
-  apiKey: "AIzaSyA_9VwjUoECAutOaZRZ8IVYBvpTjgcKVJo",
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   authDomain: "movie-search-be331.firebaseapp.com",
   databaseURL: "https://movie-search-be331.firebaseio.com",
   projectId: "movie-search-be331",
