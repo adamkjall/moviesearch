@@ -10,7 +10,7 @@ interface Props {
   error: string;
   label: string;
   predicted: string;
-  id: number;
+  // id: number;
 }
 
 interface State {
@@ -57,7 +57,7 @@ class SearchBar extends React.Component<Props, State> {
           <p className="predicted">{predicted}</p>
         )}
         <input
-          id={1}
+          // id={1}
           type="text"
           placeholder={label}
           onChange={this.changeValue.bind(this)}
@@ -65,9 +65,9 @@ class SearchBar extends React.Component<Props, State> {
           onFocus={() => !locked && this.setState({ active: true })}
           onBlur={() => !locked && this.setState({ active: false })}
         />
-        <label htmlFor={1} className={error && "error"}>
+        {/* <label htmlFor={1} className={error && "error"}>
           {error || label}
-        </label>
+        </label> */}
 
         <div>
           <FontAwesomeIcon icon={faSearch} />

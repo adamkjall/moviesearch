@@ -10,11 +10,14 @@ class Header extends React.Component {
       <div className="headerContainer">
       <Profile />
       <h1>Moviestar</h1>
-      <SearchBar id={1}
+      <SearchBar 
+      // id={1}
       label="Field label"
       predicted="California"
       locked={false}
       active={false}
+      error=""
+      value=""
       />
       
       
