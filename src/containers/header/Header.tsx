@@ -10,7 +10,16 @@ class Header extends React.Component {
       <div className="headerContainer">
       <Profile />
       <h1>Moviestar</h1>
-      <SearchBar/>
+      <SearchBar 
+      // id={1}
+      label="Vad söker du?"
+      predicted="Spiderman"
+      locked={false}
+      active={false}
+      error=""
+      value=""
+      />
+      
       
       </div>
     )
@@ -18,3 +27,4 @@ class Header extends React.Component {
 }
 
 export default Header
+
