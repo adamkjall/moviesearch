@@ -1,0 +1,7 @@
+.searchBarContainer {
+  display: flex;
+  height: 100%;
+  width: 17rem;
+  border: 1px solid white;
+  font-size: 2rem;
+}
