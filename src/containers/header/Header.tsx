@@ -12,8 +12,8 @@ class Header extends React.Component {
       <h1>Moviestar</h1>
       <SearchBar 
       // id={1}
-      label="Field label"
-      predicted="California"
+      label="Vad söker du?"
+      predicted="Spiderman"
       locked={false}
       active={false}
       error=""
