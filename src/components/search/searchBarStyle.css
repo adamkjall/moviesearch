@@ -1,4 +1,5 @@
 .field {
+  display: flex;
   width: 30%;
   height: 56px;
   border-radius: 4px;
@@ -94,4 +95,14 @@
   color: #e0e0e0;
   opacity: 1;
   pointer-events: none;
+}
+
+.searchIcon {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 0.5rem;
+
+  
 }

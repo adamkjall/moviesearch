@@ -18,7 +18,6 @@ interface State {
   active: boolean;
   error: string;
   label: string;
-
 }
 
 class SearchBar extends React.Component<Props, State> {
@@ -33,10 +32,8 @@ class SearchBar extends React.Component<Props, State> {
   }
 
   changeValue(event: any) {
-   
     const value = event.target.value;
-    this.setState({ value, error: '' });
-   
+    this.setState({ value, error: "" });
   }
 
   handleKeyPress(event: any) {
@@ -68,9 +65,9 @@ class SearchBar extends React.Component<Props, State> {
         {/* <label htmlFor={1} className={error && "error"}>
           {error || label}
         </label> */}
-
-        <div>
-          <FontAwesomeIcon icon={faSearch} />
+        <div className="searchIcon">
+          
+        <FontAwesomeIcon icon={faSearch} />
         </div>
       </div>
     );
