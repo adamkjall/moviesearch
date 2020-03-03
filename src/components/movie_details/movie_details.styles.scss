@@ -31,9 +31,9 @@
     height: 80%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 2fr 2fr;
     align-items: start;
-    gap: 2rem;
+    gap: 3rem;
 
     .poster {
       width: 100%;
@@ -51,6 +51,22 @@
         grid-template-columns: 1fr 4fr;
         gap: 1rem;
         margin-bottom: 1rem;
+      }
+    }
+
+    .actors {
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .actor {
+        margin: .5rem 0;
+
+        img {
+          width:50px;
+          border-radius: 50%;
+        }
       }
     }
   }

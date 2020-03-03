@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 
 import "./movie_details.styles.scss";
 
+const baseDetailsUrl = "https://api.themoviedb.org/3/movie/";
 const baseImgUrl = "https://image.tmdb.org/t/p/original";
 
 interface IProps {
@@ -24,13 +25,18 @@ interface IMovie {
   genres: { id: number; name: String }[];
 }
 
+interface ICast {
+  name: string;
+  profile_path?: string;
+  character?: string;
+}
+
 const MovieDetails: FC<IProps> = ({ movieId }) => {
   const [movie, setMovie] = useState<IMovie | null>(null);
-
+  const [cast, setCast] = useState<ICast[] | null>(null);
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_API}`
-    )
+    // get movie details
+    fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}`)
       .then(res => res.json())
       .then(data => ({
         ...data,
@@ -40,6 +46,21 @@ const MovieDetails: FC<IProps> = ({ movieId }) => {
         )
       }))
       .then(movie => setMovie(movie));
+
+    // get actor details
+    fetch(
+      `${baseDetailsUrl}${movieId}/credits?api_key=${process.env.REACT_APP_API}`
+    )
+      .then(res => res.json())
+      .then(data => data.cast.splice(0, 10))
+      .then(cast =>
+        cast.map((person: ICast) => ({
+          name: person.name,
+          character: person.character,
+          profile_path: person.profile_path
+        }))
+      )
+      .then(names => setCast(names));
   }, [movieId]);
 
   if (!movie) return <h2>Loading...</h2>;
@@ -78,7 +99,21 @@ const MovieDetails: FC<IProps> = ({ movieId }) => {
           </div>
           <div className="overview">{movie.overview}</div>
         </div>
-        <div className="actors">Actors</div>
+        <div className="actors">
+          <h2 className="title">Actors</h2>
+          <div className="grid">
+            {!cast ? (
+              <h2>Loading...</h2>
+            ) : (
+              cast.map((person, i) => (
+                <div key={i} className="actor">
+                  <h3>{person.name}</h3>
+                  <img src={`${baseImgUrl}${person.profile_path}`} alt="" />
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </main>
     </section>
   );
