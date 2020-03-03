@@ -1,11 +1,18 @@
 import React from "react";
 import "./main_content.styles.css";
 
-class MainContent extends React.Component {
+interface IProps {
+  movies: any[];
+}
+class MainContent extends React.Component<IProps> {
   render() {
     return (
       <div className="mainContentContainer">
-        <p>mainee</p>
+        <ul>
+          {this.props.movies.map(movie => (
+            <li key={movie.id}>{movie.title}</li>
+          ))}
+        </ul>
       </div>
     );
   }
