@@ -1,16 +1,15 @@
-import React from 'react';
-import "./sidebarStyle.css"
-import Navbar from '../navbar/Navbar'
+import React from "react";
+import "./sidebar.styles.css";
+import Navbar from "../navbar/navbar";
 
 class Sidebar extends React.Component {
-
   render() {
     return (
       <div className="sidebarContainer">
-        <Navbar />  
+        <Navbar />
       </div>
-    )
-  };
+    );
+  }
 }
 
-export default Sidebar
+export default Sidebar;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./styles.scss";
+import "./custom_buttom.styles.scss";
 
 interface IProps {
   childlren?: React.ReactNode;

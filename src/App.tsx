@@ -4,9 +4,9 @@ import { Switch, Route } from "react-router-dom";
 import { auth } from "./firebase/firebase.utils";
 
 // componentes
-import Main from "./containers/main/Main";
-import SignIn from "./components/sign_in";
-import Header from "./containers/header/Header";
+import Main from "./containers/main/main";
+import SignIn from "./components/sign_in/sign_in";
+import Header from "./containers/header/header";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState();

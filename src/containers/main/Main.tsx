@@ -1,7 +1,7 @@
 import React from 'react';
-import Sidebar from '../../components/sidebar/Sidebar';
-import MainContent from '../../components/main_content/MainContent';
-import "./mainStyle.css";
+import Sidebar from '../../components/sidebar/sidebar';
+import MainContent from '../../components/main_content/main_content';
+import "./main.styles.css";
 
 class Main extends React.Component {
 
