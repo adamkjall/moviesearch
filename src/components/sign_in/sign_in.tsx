@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-import FormInput from "../form_input";
-import CustomButton from "../custom_button";
+import FormInput from "../form_input/form_input";
+import CustomButton from "../custom_button/custom_button";
 
 import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
-import "./styles.scss";
+import "./sign_in.styles.scss";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

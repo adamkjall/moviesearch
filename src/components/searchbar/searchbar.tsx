@@ -1,5 +1,5 @@
 import React from "react";
-import "./searchBarStyle.css";
+import "./searchbar.styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -66,8 +66,7 @@ class SearchBar extends React.Component<Props, State> {
           {error || label}
         </label> */}
         <div className="searchIcon">
-          
-        <FontAwesomeIcon icon={faSearch} />
+          <FontAwesomeIcon icon={faSearch} />
         </div>
       </div>
     );

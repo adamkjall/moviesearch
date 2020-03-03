@@ -1,7 +1,7 @@
 import React from 'react';
-import "./headerStyle.css";
-import Profile from "../../components/profile/Profile"
-import SearchBar from '../../components/search/SearchBar';
+import "./header.styles.css";
+import Profile from "../../components/profile/profile"
+import SearchBar from '../../components/searchbar/searchbar';
 
 class Header extends React.Component {
 
