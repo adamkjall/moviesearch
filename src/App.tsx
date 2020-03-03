@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import { auth } from "./firebase/firebase.utils";
 
-// componentes
+// components
 import SignIn from "./components/sign_in/sign_in";
 import Header from "./containers/header/header";
 import Sidebar from "./components/sidebar/sidebar";
@@ -16,19 +16,30 @@ const styles: CSSProperties = {
 
 interface IState {
   currentUser: any;
+  movies: any[];
 }
 
 class App extends React.Component<{}, IState> {
   private unsubscribeFromAuth: any = null;
 
   state = {
-    currentUser: null
+    currentUser: null,
+    movies: []
   };
 
   componentDidMount() {
     this.unsubscribeFromAuth = auth.onAuthStateChanged(user =>
       this.setState({ currentUser: user })
     );
+    this.fetchMovies("trending");
+  }
+
+  fetchMovies(category: "discover" | "trending") {
+    fetch(
+      `https://api.themoviedb.org/3/${category}/all/day?api_key=${process.env.REACT_APP_API}`
+    )
+      .then(response => response.json())
+      .then(data => this.setState({ movies: data.results }));
   }
 
   componentWillUnmount() {
@@ -42,7 +53,9 @@ class App extends React.Component<{}, IState> {
         <div style={styles}>
           <Sidebar />
           <Switch>
-            <Route exact path="/" component={MainContent} />
+            <Route exact path="/">
+              <MainContent movies={this.state.movies} />
+            </Route>
             <Route path="/signin" component={SignIn} />
           </Switch>
         </div>
