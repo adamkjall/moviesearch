@@ -1,12 +1,13 @@
 import React, { FC, useState, useEffect } from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import "./movie_details.styles.scss";
 
 const baseDetailsUrl = "https://api.themoviedb.org/3/movie/";
 const baseImgUrl = "https://image.tmdb.org/t/p/original";
 
-interface IProps {
-  movieId: number;
+interface IProps extends RouteComponentProps {
+
 }
 
 interface IMovie {
@@ -31,10 +32,13 @@ interface ICast {
   character?: string;
 }
 
-const MovieDetails: FC<IProps> = ({ movieId }) => {
+const MovieDetails: FC<IProps> = ({ history }) => {
   const [movie, setMovie] = useState<IMovie | null>(null);
   const [cast, setCast] = useState<ICast[] | null>(null);
+  
   useEffect(() => {
+    const movieId = history.location.pathname.slice(1);
+    
     // get movie details
     fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}`)
       .then(res => res.json())
@@ -61,7 +65,7 @@ const MovieDetails: FC<IProps> = ({ movieId }) => {
         }))
       )
       .then(names => setCast(names));
-  }, [movieId]);
+  }, [history.location.pathname]);
 
   if (!movie) return <h2>Loading...</h2>;
 
@@ -119,7 +123,7 @@ const MovieDetails: FC<IProps> = ({ movieId }) => {
   );
 };
 
-export default MovieDetails;
+export default withRouter(MovieDetails);
 
 /* 
 {

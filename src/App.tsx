@@ -54,13 +54,11 @@ class App extends React.Component<{}, IState> {
         <div style={styles}>
           <Sidebar />
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/signin" component={SignIn} />
+            <Route path="/">
               <MainContent movies={this.state.movies} />
             </Route>
-            <Route path="/signin" component={SignIn} />
-            <Route path="/movie">
-              <MovieDetails movieId={546554 /* TEST ID */} />
-            </Route>
+            
           </Switch>
         </div>
       </>

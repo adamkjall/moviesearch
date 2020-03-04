@@ -1,7 +1,10 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+
 import "./movie.styles.css";
 
-interface IProps {
+interface IProps extends RouteComponentProps {
+  id: number;
   rating: string;
   poster: any;
 }
@@ -12,7 +15,7 @@ class Movie extends React.Component<IProps> {
       return (
         <img
           src={`https://s3-ap-southeast-1.amazonaws.com/upcode/static/default-image.jpg`}
-          alt="card image"
+          alt="movie poster"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       );
@@ -20,6 +23,7 @@ class Movie extends React.Component<IProps> {
       return (
         <img
           src={`http://image.tmdb.org/t/p/w185${this.props.poster}`}
+          alt="movie poster"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       );
@@ -27,13 +31,14 @@ class Movie extends React.Component<IProps> {
   };
 
   render() {
+    const { history, match, id, rating } = this.props;
     return (
-      <div className="movie-card">
+      <div className="movie-card" onClick={() => history.push(`${match.url}${id}`)}>
         {this.renderPosters()}
-        <p>{this.props.rating}</p>
+        <p>{rating}</p>
       </div>
     );
   }
 }
 
-export default Movie;
+export default withRouter(Movie);

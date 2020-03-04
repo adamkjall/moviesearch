@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import "./navbar.styles.css";
 
@@ -8,7 +7,7 @@ class Navbar extends React.Component {
     return (
       <nav>
         <ul>
-          <Link to="/movie"><li>My collection</li></Link>
+          <li>My collection</li>
           <li>Trending movies</li>
           <li>New movies</li>
           <li>Watchlist</li>
