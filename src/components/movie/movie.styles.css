@@ -1,0 +1,21 @@
+.movie-card {
+  background-color: white;
+  height: 18rem;
+  width: 12rem;
+  position: relative;
+}
+
+.movie-card img {
+  object-fit: cover;
+}
+
+.movie-card p {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.473);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
