@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface State {
-  active: boolean;
+  expanded: boolean;
   value: string;
 }
 
@@ -16,7 +16,7 @@ class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      active: false,
+      expanded: false,
       value: ""
     };
     this.expandSearchBar = this.expandSearchBar.bind(this);
@@ -24,9 +24,8 @@ class SearchBar extends React.Component<Props, State> {
 
   expandSearchBar(event: any) {
     this.setState(state => ({
-      active: !state.active
+      expanded: !state.expanded
     }));
-    console.log(this.state.active);
   }
   changeValue(event: any) {
     const inputValue = event.target.value;
@@ -64,7 +63,21 @@ class SearchBar extends React.Component<Props, State> {
           {error || label}
         </label> */
       <div className="searchIcon" onClick={this.expandSearchBar}>
-        <FontAwesomeIcon icon={faSearch} />
+        {this.state.expanded ? (
+          <div className="field">
+            <input
+              // id={1}
+              type="text"
+              placeholder={"test"}
+              onChange={this.changeValue.bind(this)}
+              onKeyPress={this.handleKeyPress.bind(this)}
+              // onFocus={() => !locked && this.setState({ active: true })}
+              // onBlur={() => !locked && this.setState({ active: false })}
+            />
+          </div>
+        ) : (
+          <FontAwesomeIcon icon={faSearch} />
+        )}
       </div>
     );
   }
