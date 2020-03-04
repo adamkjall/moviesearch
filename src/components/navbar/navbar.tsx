@@ -1,8 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+import { auth } from "../../firebase/firebase.utils";
 
 import "./navbar.styles.css";
 
-class Navbar extends React.Component {
+interface IProps {
+  currentUser: any;
+}
+
+class Navbar extends React.Component<IProps> {
   render() {
     return (
       <nav>
@@ -13,9 +20,22 @@ class Navbar extends React.Component {
           <li>Watchlist</li>
           <li>My reviews</li>
           <hr></hr>
-          <li>My account</li>
-          <li>Settings</li>
-          <li>Log out</li>
+          {this.props.currentUser ? (
+            <>
+              <li>My account</li>
+              <li>Settings</li>
+              <li onClick={() => auth.signOut()}>Log out</li>
+            </>
+          ) : (
+            <>
+              <Link to="/signin">
+                <li>Log in</li>
+              </Link>
+              <Link to="/register">
+                <li>Register</li>
+              </Link>
+            </>
+          )}
         </ul>
       </nav>
     );

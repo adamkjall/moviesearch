@@ -10,6 +10,7 @@ ul {
 li {
     margin-bottom: 1.5rem;
     font-size: 0.8rem;
+    cursor: pointer;
 }
 
 hr {

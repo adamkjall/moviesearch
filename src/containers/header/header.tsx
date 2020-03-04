@@ -9,7 +9,7 @@ class Header extends React.Component {
     return (
       <div className="headerContainer">
         <Profile />
-        <img src={logo} style={{ height: "70%" }} />
+        <img src={logo} style={{ height: "70%" }} alt={"site title"} />
         <SearchBar
           // id={1}
           label="Vad söker du?"
