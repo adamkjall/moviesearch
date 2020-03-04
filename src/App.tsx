@@ -1,27 +1,38 @@
 import React, { CSSProperties } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import { auth } from "./firebase/firebase.utils";
+import Firebase, {
+  auth,
+  createUserProfileDocument
+} from "./firebase/firebase.utils";
 
 // components
 import SignIn from "./components/sign_in/sign_in";
+import SignUp from "./components/sign_up/sign_up";
 import Header from "./containers/header/header";
 import Sidebar from "./components/sidebar/sidebar";
 import MainContent from "./components/main_content/main_content";
-import MovieDetails from "./components/movie_details/movie_details";
+import Navbar from "./components/navbar/navbar";
 
 const styles: CSSProperties = {
   display: "flex",
   height: "calc(100vh - 80px)"
 };
 
+type User = {
+  id: string;
+  displayName: string;
+  email: string;
+  createdAt: Date;
+};
+
 interface IState {
-  currentUser: any;
+  currentUser: User | null;
   movies: any[];
 }
 
 class App extends React.Component<{}, IState> {
-  private unsubscribeFromAuth: any = null;
+  private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
 
   state = {
     currentUser: null,
@@ -29,9 +40,26 @@ class App extends React.Component<{}, IState> {
   };
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user =>
-      this.setState({ currentUser: user })
-    );
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        if (userRef) {
+          userRef.onSnapshot(snapshot => {
+            const { displayName, email, createdAt } = snapshot.data() as User;
+            this.setState({
+              currentUser: {
+                id: snapshot.id,
+                displayName,
+                email,
+                createdAt
+              }
+            });
+          });
+        }
+      } else {
+        this.setState({ currentUser: userAuth });
+      }
+    });
     this.fetchMovies("trending");
   }
 
@@ -44,21 +72,38 @@ class App extends React.Component<{}, IState> {
   }
 
   componentWillUnmount() {
-    this.unsubscribeFromAuth();
+    if (this.unsubscribeFromAuth) {
+      this.unsubscribeFromAuth();
+    }
   }
 
   render() {
+    const { currentUser, movies } = this.state;
     return (
       <>
         <Header />
         <div style={styles}>
-          <Sidebar />
+          <Sidebar>
+            <Navbar currentUser={currentUser} />
+          </Sidebar>
           <Switch>
-            <Route exact path="/signin" component={SignIn} />
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                this.state.currentUser ? <Redirect to="/" /> : <SignIn />
+              }
+            />
+            <Route
+              exact
+              path="/register"
+              render={() =>
+                this.state.currentUser ? <Redirect to="/" /> : <SignUp />
+              }
+            />
             <Route path="/">
-              <MainContent movies={this.state.movies} />
+              <MainContent movies={movies} />
             </Route>
-            
           </Switch>
         </div>
       </>

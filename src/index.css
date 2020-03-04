@@ -20,6 +20,11 @@ body {
   background-image: linear-gradient(315deg, #2f3a46 0%, #242b31 74%);
 }
 
+a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
 .color {
   color: #d1e8e2;
   color: #2c3531;
