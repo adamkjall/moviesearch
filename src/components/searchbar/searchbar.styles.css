@@ -1,6 +1,6 @@
 .field {
   display: flex;
-  width: 30%;
+  width: 5%;
   height: 56px;
   border-radius: 4px;
   margin-right: 1rem;
@@ -10,12 +10,14 @@
 }
 
 .field:hover {
-  background-color: rgba(255, 255, 255, 0.45);
+  transition: width 1.5s, background-color 1.5s, ;
+  width: 35%;
+  background-color: #ffffff;
+  /* background-color: rgba(255, 255, 255, 0.45); */
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
 }
 
-.field.active {
-  background-color: #ffffff;
+.field:active {
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -23,11 +25,11 @@
   padding: 24px 16px 8px 16px;
 }
 
-.field.active input + label {
+/* .field.active input + label {
   top: 4px;
   opacity: 1;
   color: #512da8;
-}
+} */
 
 .field.locked {
   pointer-events: none;
@@ -41,32 +43,34 @@
   border: none;
   border-radius: 4px;
   font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
-  font-size: 16px;
+  font-size: 28px;
   font-weight: 400;
   line-height: normal;
   background-color: transparent;
   color: #282828;
   outline: none;
   box-shadow: 0px 4px 20px 0px transparent;
-  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
-    0.1s padding ease-in-out;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out, 0.1s padding ease-in-out;
   -webkit-appearance: none;
 }
 
-.field input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.8);
-}
-.field input::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.8);
-}
-.field input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.8);
-}
-.field input:-moz-placeholder {
+/* .field input::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.field input + label {
+.field input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.field input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.field input:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+} */
+
+.field input+label {
   position: absolute;
   top: 24px;
   left: 16px;
@@ -80,9 +84,9 @@
   transition: 0.1s all ease-in-out;
 }
 
-.field input + label.error {
+/* .field input+label.error {
   color: #ec392f;
-}
+} */
 
 .field p.predicted {
   position: absolute;
@@ -103,6 +107,4 @@
   align-items: center;
   justify-content: center;
   padding-right: 0.5rem;
-
-  
 }

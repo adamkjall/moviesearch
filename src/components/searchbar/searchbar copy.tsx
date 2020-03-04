@@ -4,44 +4,47 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
+  active: boolean;
+  locked: boolean;
   value: string;
+  // error: string;
+  label: string;
+  predicted: string;
+  // id: number;
 }
 
 interface State {
-  active: boolean;
   value: string;
+  active: boolean;
+  // error: string;
+  label: string;
 }
 
 class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      active: false,
-      value: ""
+      active: (props.locked && props.active) || false,
+      value: props.value,
+      // error: props.error,
+      label: props.label
     };
-    this.expandSearchBar = this.expandSearchBar.bind(this);
   }
 
-  expandSearchBar(event: any) {
-    this.setState(state => ({
-      active: !state.active
-    }));
-    console.log(this.state.active);
-  }
   changeValue(event: any) {
-    const inputValue = event.target.value;
-    this.setState({ value: this.props.value });
+    const value = event.target.value;
+    this.setState({ value /* error: ""*/ });
   }
 
   handleKeyPress(event: any) {
     if (event.which === 13) {
-      this.setState({ value: this.props.value });
+      this.setState({ value: this.props.predicted });
     }
   }
 
   render() {
-    // const { active, value, /*error,*/ label } = this.state;
-    // const { predicted, locked } = this.props;
+    const { active, value, /*error,*/ label } = this.state;
+    const { predicted, locked } = this.props;
     // const fieldClassName = `field ${(locked ? active : active || value) &&
     //   "active"} ${locked && !active && "locked"}`;
 
@@ -50,8 +53,8 @@ class SearchBar extends React.Component<Props, State> {
       //   {active && value && predicted && predicted.includes(value) && (
       //     <p className="predicted">{predicted}</p>
       //   )}
-      // <div className="field">
-      /* <input
+      <div className="field">
+        <input
           // id={1}
           type="text"
           placeholder={label}
@@ -59,12 +62,13 @@ class SearchBar extends React.Component<Props, State> {
           onKeyPress={this.handleKeyPress.bind(this)}
           onFocus={() => !locked && this.setState({ active: true })}
           onBlur={() => !locked && this.setState({ active: false })}
-        /> */
-      /* <label htmlFor={1} className={error && "error"}>
+        />
+        {/* <label htmlFor={1} className={error && "error"}>
           {error || label}
-        </label> */
-      <div className="searchIcon" onClick={this.expandSearchBar}>
-        <FontAwesomeIcon icon={faSearch} />
+        </label> */}
+        <div className="searchIcon">
+          <FontAwesomeIcon icon={faSearch} />
+        </div>
       </div>
     );
   }

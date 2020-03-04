@@ -12,11 +12,11 @@ class Header extends React.Component {
         <img src={logo} style={{ height: "70%" }} />
         <SearchBar
           // id={1}
-          label="Vad söker du?"
-          predicted="Spiderman"
-          locked={false}
-          active={false}
-          error=""
+          // label="Vad söker du?"
+          // predicted="Spiderman"
+          // locked={false}
+          // active={false}
+          // error=""
           value=""
         />
       </div>
