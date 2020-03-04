@@ -1,9 +1,10 @@
 .mainContentContainer {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   border: 1px solid white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 3rem 5rem;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  overflow-y: scroll;
 }
