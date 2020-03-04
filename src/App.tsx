@@ -8,6 +8,7 @@ import SignIn from "./components/sign_in/sign_in";
 import Header from "./containers/header/header";
 import Sidebar from "./components/sidebar/sidebar";
 import MainContent from "./components/main_content/main_content";
+import MovieDetails from "./components/movie_details/movie_details";
 
 const styles: CSSProperties = {
   display: "flex",
@@ -53,10 +54,11 @@ class App extends React.Component<{}, IState> {
         <div style={styles}>
           <Sidebar />
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/signin" component={SignIn} />
+            <Route path="/">
               <MainContent movies={this.state.movies} />
             </Route>
-            <Route path="/signin" component={SignIn} />
+            
           </Switch>
         </div>
       </>
