@@ -32,6 +32,7 @@ class SearchBar extends React.Component<Props, State> {
     this.setState({ value: this.props.value });
   }
 
+  //avfyra funktionen från app.tsx - callback
   handleKeyPress(event: any) {
     if (event.which === 13) {
       this.setState({ value: this.props.value });
@@ -60,11 +61,11 @@ class SearchBar extends React.Component<Props, State> {
           onBlur={() => !locked && this.setState({ active: false })}
         /> */
       /* <label htmlFor={1} className={error && "error"}>
-          {error || label}
-        </label> */
-      <div className="searchIcon" onClick={this.expandSearchBar}>
+      {error || label}
+      </label> */
+      <div>
         {this.state.expanded ? (
-          <div className="field">
+          <div className="field field-active">
             <input
               // id={1}
               type="text"
@@ -76,8 +77,21 @@ class SearchBar extends React.Component<Props, State> {
             />
           </div>
         ) : (
-          <FontAwesomeIcon icon={faSearch} />
+          <div className="field">
+            <input
+              // id={1}
+              type="text"
+              placeholder={"test"}
+              onChange={this.changeValue.bind(this)}
+              onKeyPress={this.handleKeyPress.bind(this)}
+              // onFocus={() => !locked && this.setState({ active: true })}
+              // onBlur={() => !locked && this.setState({ active: false })}
+            />
+          </div>
         )}
+        <div className="searchButton">
+          <FontAwesomeIcon icon={faSearch} onClick={this.expandSearchBar} />
+        </div>
       </div>
     );
   }
