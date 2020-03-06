@@ -32,7 +32,7 @@ interface IState {
 }
 
 class App extends React.Component<{}, IState> {
-  private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
+  unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
 
   state = {
     currentUser: null,
