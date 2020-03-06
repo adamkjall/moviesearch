@@ -71,4 +71,9 @@
   justify-content: center;
   z-index: 5;
   pointer-events: all;
+  cursor: pointer;
+}
+
+.searchButton:hover {
+  background-color: #e0e0e0e3
 }
