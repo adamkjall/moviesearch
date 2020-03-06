@@ -5,6 +5,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   value: string;
+  getMoviesFromSearch: Function;
 }
 
 interface State {
@@ -27,15 +28,15 @@ class SearchBar extends React.Component<Props, State> {
       expanded: !state.expanded
     }));
   }
-  changeValue(event: any) {
-    const inputValue = event.target.value;
-    this.setState({ value: this.props.value });
+
+  changeValue(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ value: event.target.value });
   }
 
   //avfyra funktionen från app.tsx - callback
   handleKeyPress(event: any) {
     if (event.which === 13) {
-      this.setState({ value: this.props.value });
+      this.props.getMoviesFromSearch(this.state.value);
     }
   }
 
