@@ -2,6 +2,7 @@
   height: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  border: 1px solid white;
+  justify-content: space-between;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
