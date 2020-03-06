@@ -46,7 +46,7 @@ class SearchBar extends React.Component<Props, State> {
           <div className="field field-active">
             <input
               type="text"
-              placeholder={" Vad vill du se idag?"}
+              placeholder={" Up for a movie?"}
               onChange={this.changeValue.bind(this)}
               onKeyPress={this.handleKeyPress.bind(this)}
             />
