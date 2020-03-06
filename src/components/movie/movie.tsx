@@ -3,7 +3,11 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import "./movie.styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCheck, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faCheck,
+  faInfoCircle
+} from "@fortawesome/free-solid-svg-icons";
 
 interface IProps extends RouteComponentProps {
   id: number;
@@ -35,13 +39,22 @@ class Movie extends React.Component<IProps> {
   render() {
     const { history, match, id, rating } = this.props;
     return (
-      <div className="movie-card" >
+      <div className="movie-card">
         {this.renderPosters()}
         <p>{rating}</p>
         <div className="card-overlay">
-          <button onClick={() => history.push(`${match.url}${id}`)}>View Details<FontAwesomeIcon icon={faInfoCircle} style={{color: '#4EA8FC'}}/></button>
-          <button>Seen it!<FontAwesomeIcon icon={faCheck} style={{color: '#74FC88'}}/></button>
-          <button>Add to watchlist<FontAwesomeIcon icon={faPlus} style={{color: '#FE7A67'}}/></button>
+          <button onClick={() => history.push(`${match.url}${id}`)}>
+            View Details
+            <FontAwesomeIcon icon={faInfoCircle} style={{ color: "#4EA8FC" }} />
+          </button>
+          <button>
+            Seen it!
+            <FontAwesomeIcon icon={faCheck} style={{ color: "#74FC88" }} />
+          </button>
+          <button>
+            Add to watchlist
+            <FontAwesomeIcon icon={faPlus} style={{ color: "#FE7A67" }} />
+          </button>
         </div>
       </div>
     );
