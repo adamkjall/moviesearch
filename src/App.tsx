@@ -71,6 +71,16 @@ class App extends React.Component<{}, IState> {
       .then(data => this.setState({ movies: data.results }));
   }
 
+  searchMovies = (searchTerm: string) => {
+    //e.preventDefault();
+
+    fetch(
+      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API}&query=${searchTerm}`
+    )
+      .then(response => response.json())
+      .then(data => this.setState({ movies: data.results }));
+  };
+
   componentWillUnmount() {
     if (this.unsubscribeFromAuth) {
       this.unsubscribeFromAuth();
@@ -81,7 +91,7 @@ class App extends React.Component<{}, IState> {
     const { currentUser, movies } = this.state;
     return (
       <>
-        <Header />
+        <Header getMoviesFromSearch={this.searchMovies} />
         <div style={styles}>
           <Sidebar>
             <Navbar currentUser={currentUser} />

@@ -4,7 +4,11 @@ import Profile from "../../components/profile/profile";
 import SearchBar from "../../components/searchbar/searchbar";
 import logo from "../../assets/logo.png";
 
-class Header extends React.Component {
+interface Iprops {
+  getMoviesFromSearch: Function;
+}
+
+class Header extends React.Component<Iprops> {
   render() {
     return (
       <div className="headerContainer">
@@ -18,6 +22,7 @@ class Header extends React.Component {
           active={false}
           error=""
           value=""
+          getMoviesFromSearch={this.props.getMoviesFromSearch}
         />
       </div>
     );

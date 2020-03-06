@@ -11,6 +11,7 @@ interface Props {
   label: string;
   predicted: string;
   // id: number;
+  getMoviesFromSearch: Function;
 }
 
 interface State {
@@ -34,6 +35,8 @@ class SearchBar extends React.Component<Props, State> {
   changeValue(event: any) {
     const value = event.target.value;
     this.setState({ value, error: "" });
+    if (event.target.value != "")
+      this.props.getMoviesFromSearch(event.target.value);
   }
 
   handleKeyPress(event: any) {
