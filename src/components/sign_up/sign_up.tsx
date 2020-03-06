@@ -43,20 +43,12 @@ const SignUp = () => {
         state.email,
         state.password
       );
+
       await createUserProfileDocument({...user, displayName: state.displayName});
-      resetState();
+      
     } catch (error) {
       console.log("Error while sign up", error.message);
     }
-  };
-
-  const resetState = () => {
-    setState({
-      displayName: "",
-      email: "",
-      password: "",
-      confirmPassword: ""
-    });
   };
 
   return (
