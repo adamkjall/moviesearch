@@ -19,6 +19,11 @@ body {
   /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
 }
 
+a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
 .color {
   color: #d1e8e2;
   color: #2c3531;

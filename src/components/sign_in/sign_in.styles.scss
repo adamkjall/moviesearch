@@ -8,11 +8,15 @@
   align-items: center;
   padding: 4rem;
   margin: 3rem auto;
-  max-width: 40rem;
+  min-width: 30rem;
   border-radius: 1rem;
 
   .title {
     color: white;
+  }
+
+  .sign-in-form {
+    width: 100%;
   }
 
   .buttons {

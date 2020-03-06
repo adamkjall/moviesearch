@@ -8,7 +8,7 @@ interface IProps {
   value: string;
   name: string;
   type: string;
-  required: boolean;
+  required?: boolean;
 }
 
 const FormInput: React.FC<IProps> = ({
