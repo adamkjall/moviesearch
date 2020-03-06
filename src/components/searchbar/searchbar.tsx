@@ -23,7 +23,7 @@ class SearchBar extends React.Component<Props, State> {
     this.expandSearchBar = this.expandSearchBar.bind(this);
   }
 
-  expandSearchBar(event: any) {
+  expandSearchBar() {
     this.setState(state => ({
       expanded: !state.expanded
     }));
@@ -70,7 +70,7 @@ class SearchBar extends React.Component<Props, State> {
             <input
               // id={1}
               type="text"
-              placeholder={"test"}
+              placeholder={" Vad vill du se idag?"}
               onChange={this.changeValue.bind(this)}
               onKeyPress={this.handleKeyPress.bind(this)}
               // onFocus={() => !locked && this.setState({ active: true })}
@@ -82,7 +82,7 @@ class SearchBar extends React.Component<Props, State> {
             <input
               // id={1}
               type="text"
-              placeholder={"test"}
+              placeholder={""}
               onChange={this.changeValue.bind(this)}
               onKeyPress={this.handleKeyPress.bind(this)}
               // onFocus={() => !locked && this.setState({ active: true })}
