@@ -6,9 +6,7 @@ import "./movie_details.styles.scss";
 const baseDetailsUrl = "https://api.themoviedb.org/3/movie/";
 const baseImgUrl = "https://image.tmdb.org/t/p/original";
 
-interface IProps extends RouteComponentProps {
-
-}
+interface IProps extends RouteComponentProps {}
 
 interface IMovie {
   id: number;
@@ -35,10 +33,10 @@ interface ICast {
 const MovieDetails: FC<IProps> = ({ history }) => {
   const [movie, setMovie] = useState<IMovie | null>(null);
   const [cast, setCast] = useState<ICast[] | null>(null);
-  
+
   useEffect(() => {
     const movieId = history.location.pathname.slice(1);
-    
+
     // get movie details
     fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}`)
       .then(res => res.json())
@@ -76,7 +74,8 @@ const MovieDetails: FC<IProps> = ({ history }) => {
         background: `
           linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), 
           url(${baseImgUrl}${movie.backdrop_path})
-        `
+        `,
+        backgroundSize: "cover"
       }}
     >
       <header>
