@@ -63,7 +63,7 @@ class App extends React.Component<{}, IState> {
   }
 
   setSearchQuery = (query: string) => {
-    this.setState({ query });
+    this.setState({ query: query + "-" + (new Date())});
   };
 
   componentWillUnmount() {

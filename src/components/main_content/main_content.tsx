@@ -45,13 +45,16 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
   // denna effekten synkar komponenten efter query prop
   // om queryn ändras så körs denna funktionen
   useEffect(() => {
-    if (query.length) {
-      searchMovie(query).then(movies => {
+    if (query) {
+      const trimmedQuery = query.split("-")[0];
+      console.log("query");
+      
+      searchMovie(trimmedQuery).then(movies => {
         setMovies(movies);
-        history.goBack();
+        history.push(match.path)
       });
     }
-  }, [query, history]);
+  }, [query]);
 
 
 
