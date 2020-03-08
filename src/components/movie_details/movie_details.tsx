@@ -32,15 +32,15 @@ interface ICast {
   character?: string;
 }
 
-const MovieDetails: FC<IProps> = ({ history }) => {
+const MovieDetails: FC<IProps> = ({ history, match }) => {
   const [movie, setMovie] = useState<IMovie | null>(null);
   const [cast, setCast] = useState<ICast[] | null>(null);
   
   useEffect(() => {
-    const movieId = history.location.pathname.slice(1);
+    const movieId = history.location.pathname.split("/").pop();
     
     // get movie details
-    fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}`)
+    fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US`)
       .then(res => res.json())
       .then(data => ({
         ...data,
