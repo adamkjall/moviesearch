@@ -10,13 +10,20 @@
   padding: 0 2rem;
 
   header {
-    display: flex;
-    justify-content: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3rem auto;
     align-items: center;
     height: 20%;
 
+    .go-back {
+      cursor: pointer;
+      font-size: 2rem;
+    }
+
     .title {
       font-size: 2.5rem;
+      justify-self: center;
      
       .year {
         color: #ccc;

@@ -1,6 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 import "./movie_details.styles.scss";
 
 const baseDetailsUrl = "https://api.themoviedb.org/3/movie/";
@@ -80,6 +83,7 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
       }}
     >
       <header>
+        <FontAwesomeIcon className="go-back" icon={faArrowLeft} onClick={() => history.goBack()} />
         <h1 className="title">
           {movie.title} <span className="year">({movie.year})</span>
         </h1>

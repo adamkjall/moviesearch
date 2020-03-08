@@ -39,7 +39,7 @@ class Movie extends React.Component<IProps> {
         {this.renderPosters()}
         <p>{rating}</p>
         <div className="card-overlay">
-          <button onClick={() => history.push(`${match.url}movie/${id}`)}>View Details<FontAwesomeIcon icon={faInfoCircle} style={{color: '#4EA8FC'}}/></button>
+          <button onClick={() => history.push(`${match.path}/movie/${id}`)}>View Details<FontAwesomeIcon icon={faInfoCircle} style={{color: '#4EA8FC'}}/></button>
           <button>Seen it!<FontAwesomeIcon icon={faCheck} style={{color: '#74FC88'}}/></button>
           <button>Add to watchlist<FontAwesomeIcon icon={faPlus} style={{color: '#FE7A67'}}/></button>
         </div>
