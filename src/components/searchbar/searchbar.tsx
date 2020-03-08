@@ -4,39 +4,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
-  active: boolean;
-  locked: boolean;
   value: string;
-  error: string;
-  label: string;
-  predicted: string;
-  // id: number;
   setSearchQuery: (query: string) => void;
 }
 
 interface State {
+  expanded: boolean;
   value: string;
-  active: boolean;
-  error: string;
-  label: string;
 }
 
 class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      active: (props.locked && props.active) || false,
-      value: props.value || "",
-      error: props.error || "",
-      label: props.label || "label"
+      expanded: false,
+      value: ""
     };
+    this.expandSearchBar = this.expandSearchBar.bind(this);
   }
 
-  changeValue(event: any) {
-    const value = event.target.value;
-    this.setState({ value, error: "" });
-    // if (event.target.value != "")
-    //   this.props.getMoviesFromSearch(event.target.value);
+  expandSearchBar() {
+    this.setState(state => ({
+      expanded: !state.expanded
+    }));
+  }
+
+  changeValue(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ value: event.target.value });
   }
 
   handleKeyPress(event: any) {
@@ -48,30 +42,29 @@ class SearchBar extends React.Component<Props, State> {
   }
 
   render() {
-    const { active, value, error, label } = this.state;
-    const { predicted, locked } = this.props;
-    const fieldClassName = `field ${(locked ? active : active || value) &&
-      "active"} ${locked && !active && "locked"}`;
-
     return (
-      <div className={fieldClassName}>
-        {active && value && predicted && predicted.includes(value) && (
-          <p className="predicted">{predicted}</p>
+      <div>
+        {this.state.expanded ? (
+          <div className="field field-active">
+            <input
+              type="text"
+              placeholder={" Up for a movie?"}
+              onChange={this.changeValue.bind(this)}
+              onKeyPress={this.handleKeyPress.bind(this)}
+            />
+          </div>
+        ) : (
+          <div className="field">
+            <input
+              type="text"
+              placeholder={""}
+              onChange={this.changeValue.bind(this)}
+              onKeyPress={this.handleKeyPress.bind(this)}
+            />
+          </div>
         )}
-        <input
-          // id={1}
-          type="text"
-          placeholder={label}
-          onChange={this.changeValue.bind(this)}
-          onKeyPress={this.handleKeyPress.bind(this)}
-          onFocus={() => !locked && this.setState({ active: true })}
-          onBlur={() => !locked && this.setState({ active: false })}
-        />
-        {/* <label htmlFor={1} className={error && "error"}>
-          {error || label}
-        </label> */}
-        <div className="searchIcon">
-          <FontAwesomeIcon icon={faSearch} />
+        <div className="searchButton">
+          <FontAwesomeIcon icon={faSearch} onClick={this.expandSearchBar} />
         </div>
       </div>
     );

@@ -16,11 +16,11 @@ class Header extends React.Component<Iprops> {
         <img src={logo} style={{ height: "70%" }} alt={"site title"} />
         <SearchBar
           // id={1}
-          label="Vad söker du?"
-          predicted="Spiderman"
-          locked={false}
-          active={false}
-          error=""
+          // label="Vad söker du?"
+          // predicted="Spiderman"
+          // locked={false}
+          // active={false}
+          // error=""
           value=""
           setSearchQuery={this.props.setSearchQuery}
         />

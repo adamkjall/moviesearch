@@ -1,8 +1,14 @@
 import React from "react";
+import Logo from "../../assets/avatar.png";
+import "./profile.styles.css";
 
 class Profile extends React.Component {
   render() {
-    return <img src="nowhere" alt="logo"/>
+    return (
+      <div className="avatar">
+        <img src={Logo} alt="logo" />;
+      </div>
+    );
   }
 }
 
