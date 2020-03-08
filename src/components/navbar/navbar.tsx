@@ -14,14 +14,21 @@ class Navbar extends React.Component<IProps> {
     return (
       <nav>
         <ul>
-          <li>My collection</li>
-          <li>Trending movies</li>
-          <li>New movies</li>
-          <li>Watchlist</li>
-          <li>My reviews</li>
+          <Link to="/trending/">
+            <li>Trending movies</li>
+          </Link>
+          <Link to="/popular/">
+            <li>Popular movies</li>
+          </Link>
+          <Link to="/new/">
+            <li>New movies</li>
+          </Link>
           <hr></hr>
           {this.props.currentUser ? (
             <>
+              <li>My collection</li>
+              <li>Watchlist</li>
+              <li>My reviews</li>
               <li>My account</li>
               <li>Settings</li>
               <li onClick={() => auth.signOut()}>Log out</li>

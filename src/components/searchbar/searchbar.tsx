@@ -5,7 +5,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   value: string;
-  getMoviesFromSearch: Function;
+  setSearchQuery: (query: string) => void;
 }
 
 interface State {
@@ -35,7 +35,9 @@ class SearchBar extends React.Component<Props, State> {
 
   handleKeyPress(event: any) {
     if (event.which === 13) {
-      this.props.getMoviesFromSearch(this.state.value);
+      this.props.setSearchQuery(this.state.value)
+      this.setState({ value: "" });
+      event.target.value = "";
     }
   }
 

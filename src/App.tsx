@@ -28,15 +28,15 @@ type User = {
 
 interface IState {
   currentUser: User | null;
-  movies: any[];
+  query: string;
 }
 
 class App extends React.Component<{}, IState> {
-  unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
+  private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
 
   state = {
     currentUser: null,
-    movies: []
+    query: ""
   };
 
   componentDidMount() {
@@ -60,25 +60,10 @@ class App extends React.Component<{}, IState> {
         this.setState({ currentUser: userAuth });
       }
     });
-    this.fetchMovies("trending");
   }
 
-  fetchMovies(category: "discover" | "trending") {
-    fetch(
-      `https://api.themoviedb.org/3/${category}/all/day?api_key=${process.env.REACT_APP_API}`
-    )
-      .then(response => response.json())
-      .then(data => this.setState({ movies: data.results }));
-  }
-
-  searchMovies = (searchTerm: string) => {
-    //e.preventDefault();
-
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API}&query=${searchTerm}`
-    )
-      .then(response => response.json())
-      .then(data => this.setState({ movies: data.results }));
+  setSearchQuery = (query: string) => {
+    this.setState({ query });
   };
 
   componentWillUnmount() {
@@ -88,10 +73,10 @@ class App extends React.Component<{}, IState> {
   }
 
   render() {
-    const { currentUser, movies } = this.state;
+    const { currentUser, query } = this.state;
     return (
       <>
-        <Header getMoviesFromSearch={this.searchMovies} />
+        <Header setSearchQuery={this.setSearchQuery} />
         <div style={styles}>
           <Sidebar>
             <Navbar currentUser={currentUser} />
@@ -100,19 +85,24 @@ class App extends React.Component<{}, IState> {
             <Route
               exact
               path="/signin"
-              render={() =>
-                this.state.currentUser ? <Redirect to="/" /> : <SignIn />
-              }
+              render={() => (currentUser ? <Redirect to="/" /> : <SignIn />)}
             />
             <Route
               exact
               path="/register"
-              render={() =>
-                this.state.currentUser ? <Redirect to="/" /> : <SignUp />
-              }
+              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
             />
-            <Route path="/">
-              <MainContent movies={movies} />
+            <Route exact path="/">
+              <Redirect from="/" to ="trending" />
+            </Route>
+            <Route path="/trending">
+              <MainContent query={query} />
+            </Route>
+            <Route path="/popular">
+              <MainContent query={query} />
+            </Route>
+            <Route path="/new">
+              <MainContent query={query} />
             </Route>
           </Switch>
         </div>

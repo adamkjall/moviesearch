@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, useState, useEffect } from "react";
 import {
   Switch,
   Route,
@@ -6,22 +6,61 @@ import {
   RouteComponentProps
 } from "react-router-dom";
 
+import {
+  fetchTrendingMovies,
+  fetchPopularMovies,
+  fetchNewMovies,
+  searchMovie
+} from "../../utils/themoviedb-api";
+
 import Movie from "../movie/movie";
 import MovieDetails from "../movie_details/movie_details";
 
 import "./main_content.styles.css";
 
 interface IProps extends RouteComponentProps {
-  movies: any[];
+  query: string;
 }
-class MainContent extends React.Component<IProps> {
-  render() {
-    const { match, movies } = this.props;
-    return (
-      <Switch>
-        <Route exact path={match.path}>
+
+const MainContent: FC<IProps> = ({ match, history, query }) => {
+  const [movies, setMovies] = useState<any[]>([]);
+
+  // match.path : "trending" | "popular" | "new"
+  // om match.path ändras så kommer denna funktionen köras igen
+  // den synkar komponenten efter props, match.path i detta fallet
+  useEffect(() => {
+    const category = match.path.replace("/", "");
+    switch (category) {
+      case "popular":
+        fetchPopularMovies().then(movies => setMovies(movies));
+        break;
+      case "new":
+        fetchNewMovies().then(movies => setMovies(movies));
+        break;
+      default:
+        fetchTrendingMovies().then(movies => setMovies(movies));
+    }
+  }, [match.path]);
+
+  // denna effekten synkar komponenten efter query prop
+  // om queryn ändras så körs denna funktionen
+  useEffect(() => {
+    if (query.length) {
+      searchMovie(query).then(movies => {
+        setMovies(movies);
+        history.goBack();
+      });
+    }
+  }, [query, history]);
+
+
+
+  return (
+    <Switch>
+      <Route exact path={match.path}>
+        {movies && movies.length ? (
           <div className="mainContentContainer">
-            {movies.map(movie => (
+            {movies.map((movie: any) => (
               <Movie
                 key={movie.id}
                 id={movie.id}
@@ -30,13 +69,15 @@ class MainContent extends React.Component<IProps> {
               />
             ))}
           </div>
-        </Route>
-        <Route path={`${match.path}`}>
-          <MovieDetails />
-        </Route>
-      </Switch>
-    );
-  }
-}
+        ) : (
+          <h1>Loading...</h1>
+        )}
+      </Route>
+      <Route path={`${match.path}/movie/:movieId`}>
+        <MovieDetails />
+      </Route>
+    </Switch>
+  );
+};
 
 export default withRouter(MainContent);

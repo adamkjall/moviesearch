@@ -1,6 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 import "./movie_details.styles.scss";
 
 const baseDetailsUrl = "https://api.themoviedb.org/3/movie/";
@@ -30,15 +33,15 @@ interface ICast {
   character?: string;
 }
 
-const MovieDetails: FC<IProps> = ({ history }) => {
+const MovieDetails: FC<IProps> = ({ history, match }) => {
   const [movie, setMovie] = useState<IMovie | null>(null);
   const [cast, setCast] = useState<ICast[] | null>(null);
 
   useEffect(() => {
-    const movieId = history.location.pathname.slice(1);
-
+    const movieId = history.location.pathname.split("/").pop();
+    
     // get movie details
-    fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}`)
+    fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US`)
       .then(res => res.json())
       .then(data => ({
         ...data,
@@ -79,6 +82,7 @@ const MovieDetails: FC<IProps> = ({ history }) => {
       }}
     >
       <header>
+        <FontAwesomeIcon className="go-back" icon={faArrowLeft} onClick={() => history.goBack()} />
         <h1 className="title">
           {movie.title} <span className="year">({movie.year})</span>
         </h1>

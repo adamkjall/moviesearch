@@ -5,7 +5,7 @@ import SearchBar from "../../components/searchbar/searchbar";
 import logo from "../../assets/logo.png";
 
 interface Iprops {
-  getMoviesFromSearch: Function;
+  setSearchQuery: (query: string) => void;
 }
 
 class Header extends React.Component<Iprops> {
@@ -22,7 +22,7 @@ class Header extends React.Component<Iprops> {
           // active={false}
           // error=""
           value=""
-          getMoviesFromSearch={this.props.getMoviesFromSearch}
+          setSearchQuery={this.props.setSearchQuery}
         />
       </div>
     );
