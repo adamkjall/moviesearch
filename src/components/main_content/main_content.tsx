@@ -51,7 +51,6 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
       
       searchMovie(trimmedQuery).then(movies => {
         setMovies(movies);
-        history.push(match.path)
       });
     }
   }, [query]);
@@ -60,7 +59,10 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
 
   return (
     <Switch>
-      <Route exact path={match.path}>
+      <Route path={`${match.path}/movie/:movieId`}>
+        <MovieDetails />
+      </Route>
+      <Route path={match.path}>
         {movies && movies.length ? (
           <div className="mainContentContainer">
             {movies.map((movie: any) => (
@@ -75,9 +77,6 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
         ) : (
           <h1>Loading...</h1>
         )}
-      </Route>
-      <Route path={`${match.path}/movie/:movieId`}>
-        <MovieDetails />
       </Route>
     </Switch>
   );
