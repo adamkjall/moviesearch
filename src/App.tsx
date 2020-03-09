@@ -63,7 +63,7 @@ class App extends React.Component<RouteComponentProps, IState> {
   }
 
   setSearchQuery = (query: string) => {
-    this.setState({ query: query + "-" + (new Date())});
+    this.setState({ query: query + "~" + (new Date())});
     this.props.history.push(`${this.props.match.path}search`)
   };
 

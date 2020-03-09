@@ -22,7 +22,7 @@ interface IProps extends RouteComponentProps {
   query: string;
 }
 
-const MainContent: FC<IProps> = ({ match, history, query }) => {
+const MainContent: FC<IProps> = ({ match, query }) => {
   const [movies, setMovies] = useState<any[]>([]);
 
   // match.path : "trending" | "popular" | "new"
@@ -46,8 +46,7 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
   // om queryn ändras så körs denna funktionen
   useEffect(() => {
     if (query) {
-      const trimmedQuery = query.split("-")[0];
-      console.log("query");
+      const trimmedQuery = query.split("~")[0];
       
       searchMovie(trimmedQuery).then(movies => {
         setMovies(movies);
