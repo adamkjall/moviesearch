@@ -1,5 +1,13 @@
 .sidebarContainer {
   height: 100%;
-  width: 17rem;
+  width: 20%;
   /* border: 1px solid white; */
+}
+
+@media screen and (max-width: 768px) {
+  .sidebarContainer {
+    position: absolute;
+    z-index: 300;
+    background-color: black;
+  }
 }
