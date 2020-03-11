@@ -4,10 +4,11 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-import "./movie_details.styles.scss";
+import { getMovieDetails, getCast, baseImgUrl } from "../../utils/themoviedb-api";
 
-const baseDetailsUrl = "https://api.themoviedb.org/3/movie/";
-const baseImgUrl = "https://image.tmdb.org/t/p/original";
+import CastList from "../cast_list/cast_list";
+
+import "./movie_details.styles.scss";
 
 interface IProps extends RouteComponentProps {}
 
@@ -27,7 +28,7 @@ interface IMovie {
   genres: { id: number; name: String }[];
 }
 
-interface ICast {
+export interface ICastMember {
   name: string;
   profile_path?: string;
   character?: string;
@@ -35,37 +36,31 @@ interface ICast {
 
 const MovieDetails: FC<IProps> = ({ history, match }) => {
   const [movie, setMovie] = useState<IMovie | null>(null);
-  const [cast, setCast] = useState<ICast[] | null>(null);
+  const [cast, setCast] = useState<ICastMember[]>([]);
 
   useEffect(() => {
     const movieId = history.location.pathname.split("/").pop();
-    
-    // get movie details
-    fetch(`${baseDetailsUrl}${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US`)
-      .then(res => res.json())
-      .then(data => ({
-        ...data,
-        year: data.release_date.split("-")[0],
-        genres: data.genres.map(
-          (genre: { id: number; name: String }) => genre.name
-        )
-      }))
-      .then(movie => setMovie(movie));
 
-    // get actor details
-    fetch(
-      `${baseDetailsUrl}${movieId}/credits?api_key=${process.env.REACT_APP_API}`
-    )
-      .then(res => res.json())
-      .then(data => data.cast.splice(0, 10))
+    getMovieDetails(movieId)
+      .then(movieDetails => ({
+        ...movieDetails,
+        year: movieDetails.release_date.split("-")[0],
+        genres: movieDetails.genres.map((genre: { name: String }) => genre.name)
+      }))
+      .then(movie => setMovie(movie))
+      .catch(console.log);
+
+    getCast(movieId)
       .then(cast =>
-        cast.map((person: ICast) => ({
+        cast.map((person: ICastMember) => ({
           name: person.name,
           character: person.character,
           profile_path: person.profile_path
         }))
       )
-      .then(names => setCast(names));
+      .then(cast => setCast(cast))
+      .catch(console.log);
+
   }, [history.location.pathname]);
 
   if (!movie) return <h2>Loading...</h2>;
@@ -82,7 +77,11 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
       }}
     >
       <header>
-        <FontAwesomeIcon className="go-back" icon={faArrowLeft} onClick={() => history.goBack()} />
+        <FontAwesomeIcon
+          className="go-back"
+          icon={faArrowLeft}
+          onClick={() => history.goBack()}
+        />
         <h1 className="title">
           {movie.title} <span className="year">({movie.year})</span>
         </h1>
@@ -108,18 +107,26 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
         </div>
         <div className="actors">
           <h2 className="title">Actors</h2>
-          <div className="grid">
+          <CastList cast={cast} />
+          {/* <div className="grid">
             {!cast ? (
               <h2>Loading...</h2>
             ) : (
-              cast.map((person, i) => (
+              cast.splice(0, 6).map((person, i) => (
                 <div key={i} className="actor">
                   <h3>{person.name}</h3>
-                  <img src={`${baseImgUrl}${person.profile_path}`} alt="" />
+                  <img
+                    src={
+                      person.profile_path
+                        ? `${baseImgUrl}${person.profile_path}`
+                        : "https://s3-ap-southeast-1.amazonaws.com/upcode/static/default-image.jpg"
+                    }
+                    alt="actor"
+                  />
                 </div>
               ))
             )}
-          </div>
+          </div> */}
         </div>
       </main>
     </section>

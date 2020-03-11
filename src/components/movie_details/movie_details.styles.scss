@@ -64,21 +64,21 @@
       .title {
         margin-bottom: 2rem;
       }
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .actor {
-        margin: 0.5rem 0;
-        font-size: 0.8rem;
+      // .grid {
+      //   display: grid;
+      //   grid-template-columns: 1fr 1fr;
+      // }
+      // .actor {
+      //   margin: 0.5rem 0;
+      //   font-size: 0.8rem;
 
-        img {
-          width: 55px;
-          height: 55px;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-      }
+      //   img {
+      //     width: 55px;
+      //     height: 55px;
+      //     object-fit: cover;
+      //     border-radius: 50%;
+      //   }
+      // }
     }
   }
 }
