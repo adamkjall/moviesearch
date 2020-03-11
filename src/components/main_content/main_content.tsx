@@ -22,7 +22,7 @@ interface IProps extends RouteComponentProps {
   query: string;
 }
 
-const MainContent: FC<IProps> = ({ match, history, query }) => {
+const MainContent: FC<IProps> = ({ match, query }) => {
   const [movies, setMovies] = useState<any[]>([]);
 
   // match.path : "trending" | "popular" | "new"
@@ -46,12 +46,10 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
   // om queryn ändras så körs denna funktionen
   useEffect(() => {
     if (query) {
-      const trimmedQuery = query.split("-")[0];
-      console.log("query");
+      const trimmedQuery = query.split("~")[0];
       
       searchMovie(trimmedQuery).then(movies => {
         setMovies(movies);
-        history.push(match.path)
       });
     }
   }, [query]);
@@ -60,7 +58,10 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
 
   return (
     <Switch>
-      <Route exact path={match.path}>
+      <Route path={`${match.path}/movie/:movieId`}>
+        <MovieDetails />
+      </Route>
+      <Route path={match.path}>
         {movies && movies.length ? (
           <div className="mainContentContainer">
             {movies.map((movie: any) => (
@@ -75,9 +76,6 @@ const MainContent: FC<IProps> = ({ match, history, query }) => {
         ) : (
           <h1>Loading...</h1>
         )}
-      </Route>
-      <Route path={`${match.path}/movie/:movieId`}>
-        <MovieDetails />
       </Route>
     </Switch>
   );

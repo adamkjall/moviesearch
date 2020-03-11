@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter, RouteComponentProps } from "react-router-dom";
 
 import Firebase, {
   auth,
@@ -32,7 +32,7 @@ interface IState {
   showSidebar: boolean;
 }
 
-class App extends React.Component<{}, IState> {
+class App extends React.Component<RouteComponentProps, IState> {
   private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
 
   state = {
@@ -66,7 +66,8 @@ class App extends React.Component<{}, IState> {
   }
 
   setSearchQuery = (query: string) => {
-    this.setState({ query: query + "-" + new Date() });
+    this.setState({ query: query + "~" + (new Date())});
+    this.props.history.push(`${this.props.match.path}search`)
   };
 
   componentWillUnmount() {
@@ -125,6 +126,9 @@ class App extends React.Component<{}, IState> {
             <Route path="/new">
               <MainContent query={query} />
             </Route>
+            <Route path="/search">
+              <MainContent query={query} />
+            </Route>
           </Switch>
         </div>
       </>
@@ -132,4 +136,4 @@ class App extends React.Component<{}, IState> {
   }
 }
 
-export default App;
+export default withRouter(App);
