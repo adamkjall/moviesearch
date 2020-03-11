@@ -12,11 +12,20 @@ interface Iprops {
 }
 
 class Header extends React.Component<Iprops> {
+  //Able to simulate ErrorBoundaries
+  errorTest = () => {
+    if (1 > 99) {
+      // Simulate a JS error
+      throw new Error("I craaashed!");
+    }
+    return <FontAwesomeIcon icon={faFolderMinus} />;
+  };
+
   render() {
     return (
       <div className="headerContainer">
         <div className="hamburgerMenu" onClick={this.props.toggleSidebar}>
-          <FontAwesomeIcon icon={faFolderMinus} />
+          {this.errorTest()}
         </div>
         {/* <Profile /> */}
         <img src={logo} style={{ height: "70%" }} alt={"site title"} />

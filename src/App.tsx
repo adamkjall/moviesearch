@@ -1,5 +1,11 @@
 import React, { CSSProperties } from "react";
-import { Switch, Route, Redirect, withRouter, RouteComponentProps } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  withRouter,
+  RouteComponentProps
+} from "react-router-dom";
 
 import Firebase, {
   auth,
@@ -13,6 +19,7 @@ import Header from "./containers/header/header";
 import Sidebar from "./components/sidebar/sidebar";
 import MainContent from "./components/main_content/main_content";
 import Navbar from "./components/navbar/navbar";
+import ErrorBoundary from "./errorBoundary";
 
 const styles: CSSProperties = {
   display: "flex",
@@ -66,8 +73,8 @@ class App extends React.Component<RouteComponentProps, IState> {
   }
 
   setSearchQuery = (query: string) => {
-    this.setState({ query: query + "~" + (new Date())});
-    this.props.history.push(`${this.props.match.path}search`)
+    this.setState({ query: query + "~" + new Date() });
+    this.props.history.push(`${this.props.match.path}search`);
   };
 
   componentWillUnmount() {
@@ -92,46 +99,52 @@ class App extends React.Component<RouteComponentProps, IState> {
   render() {
     const { currentUser, query } = this.state;
     return (
-      <>
-        <Header
-          setSearchQuery={this.setSearchQuery}
-          toggleSidebar={this.toggleSidebar}
-        />
+      <ErrorBoundary>
+        <ErrorBoundary>
+          <Header
+            setSearchQuery={this.setSearchQuery}
+            toggleSidebar={this.toggleSidebar}
+          />
+        </ErrorBoundary>
         <div style={styles}>
           {this.state.showSidebar ? (
-            <Sidebar>
-              <Navbar currentUser={currentUser} />
-            </Sidebar>
+            <ErrorBoundary>
+              <Sidebar>
+                <Navbar currentUser={currentUser} />
+              </Sidebar>
+            </ErrorBoundary>
           ) : null}
-          <Switch>
-            <Route
-              exact
-              path="/signin"
-              render={() => (currentUser ? <Redirect to="/" /> : <SignIn />)}
-            />
-            <Route
-              exact
-              path="/register"
-              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-            />
-            <Route exact path="/">
-              <Redirect from="/" to="trending" />
-            </Route>
-            <Route path="/trending">
-              <MainContent query={query} />
-            </Route>
-            <Route path="/popular">
-              <MainContent query={query} />
-            </Route>
-            <Route path="/new">
-              <MainContent query={query} />
-            </Route>
-            <Route path="/search">
-              <MainContent query={query} />
-            </Route>
-          </Switch>
+          <ErrorBoundary>
+            <Switch>
+              <Route
+                exact
+                path="/signin"
+                render={() => (currentUser ? <Redirect to="/" /> : <SignIn />)}
+              />
+              <Route
+                exact
+                path="/register"
+                render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
+              />
+              <Route exact path="/">
+                <Redirect from="/" to="trending" />
+              </Route>
+              <Route path="/trending">
+                <MainContent query={query} />
+              </Route>
+              <Route path="/popular">
+                <MainContent query={query} />
+              </Route>
+              <Route path="/new">
+                <MainContent query={query} />
+              </Route>
+              <Route path="/search">
+                <MainContent query={query} />
+              </Route>
+            </Switch>
+          </ErrorBoundary>
         </div>
-      </>
+      </ErrorBoundary>
     );
   }
 }
