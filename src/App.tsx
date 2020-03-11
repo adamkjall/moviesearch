@@ -29,6 +29,7 @@ type User = {
 interface IState {
   currentUser: User | null;
   query: string;
+  showSidebar: boolean;
 }
 
 class App extends React.Component<RouteComponentProps, IState> {
@@ -36,10 +37,12 @@ class App extends React.Component<RouteComponentProps, IState> {
 
   state = {
     currentUser: null,
-    query: ""
+    query: "",
+    showSidebar: true
   };
 
   componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -71,17 +74,35 @@ class App extends React.Component<RouteComponentProps, IState> {
     if (this.unsubscribeFromAuth) {
       this.unsubscribeFromAuth();
     }
+    window.removeEventListener("resize", this.handleResize);
   }
 
+  handleResize = () => {
+    if (window.innerWidth < 768 && this.state.showSidebar) {
+      this.setState({ showSidebar: false });
+    } else if (window.innerWidth > 768 && !this.state.showSidebar) {
+      this.setState({ showSidebar: true });
+    }
+  };
+
+  toggleSidebar = () => {
+    this.setState({ showSidebar: !this.state.showSidebar });
+    console.log(this.state.showSidebar);
+  };
   render() {
     const { currentUser, query } = this.state;
     return (
       <>
-        <Header setSearchQuery={this.setSearchQuery} />
+        <Header
+          setSearchQuery={this.setSearchQuery}
+          toggleSidebar={this.toggleSidebar}
+        />
         <div style={styles}>
-          <Sidebar>
-            <Navbar currentUser={currentUser} />
-          </Sidebar>
+          {this.state.showSidebar ? (
+            <Sidebar>
+              <Navbar currentUser={currentUser} />
+            </Sidebar>
+          ) : null}
           <Switch>
             <Route
               exact
@@ -94,7 +115,7 @@ class App extends React.Component<RouteComponentProps, IState> {
               render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
             />
             <Route exact path="/">
-              <Redirect from="/" to ="trending" />
+              <Redirect from="/" to="trending" />
             </Route>
             <Route path="/trending">
               <MainContent query={query} />
