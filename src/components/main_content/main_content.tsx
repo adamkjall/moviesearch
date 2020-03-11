@@ -24,6 +24,7 @@ interface IProps extends RouteComponentProps {
 
 const MainContent: FC<IProps> = ({ match, query }) => {
   const [movies, setMovies] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
 
   // match.path : "trending" | "popular" | "new"
   // om match.path ändras så kommer denna funktionen köras igen
@@ -32,13 +33,16 @@ const MainContent: FC<IProps> = ({ match, query }) => {
     const category = match.path.replace("/", "");
     switch (category) {
       case "popular":
-        fetchPopularMovies().then(movies => setMovies(movies));
+        setPage(1);
+        fetchPopularMovies(page).then(movies => setMovies(movies));
         break;
       case "new":
-        fetchNewMovies().then(movies => setMovies(movies));
+        setPage(1);
+        fetchNewMovies(page).then(movies => setMovies(movies));
         break;
       default:
-        fetchTrendingMovies().then(movies => setMovies(movies));
+        setPage(1);
+        fetchTrendingMovies(page).then(movies => setMovies(movies));
     }
   }, [match.path]);
 
@@ -47,14 +51,36 @@ const MainContent: FC<IProps> = ({ match, query }) => {
   useEffect(() => {
     if (query) {
       const trimmedQuery = query.split("~")[0];
-      
+
       searchMovie(trimmedQuery).then(movies => {
         setMovies(movies);
       });
     }
   }, [query]);
 
-
+  const loadMoreMovies = () => {
+    setPage(page => page + 1);
+    const category = match.path.replace("/", "");
+    switch (category) {
+      case "popular":
+        setPage(1);
+        fetchPopularMovies(page).then(newMovies =>
+          setMovies(movies => [...movies, ...newMovies])
+        );
+        break;
+      case "new":
+        setPage(1);
+        fetchNewMovies(page).then(newMovies =>
+          setMovies(movies => [...movies, ...newMovies])
+        );
+        break;
+      default:
+        setPage(1);
+        fetchTrendingMovies(page).then(newMovies =>
+          setMovies(movie => [...movies, ...newMovies])
+        );
+    }
+  };
 
   return (
     <Switch>
@@ -73,7 +99,7 @@ const MainContent: FC<IProps> = ({ match, query }) => {
               />
             ))}
           </div>
-        ) : (
+         ) : (
           <h1>Loading...</h1>
         )}
       </Route>

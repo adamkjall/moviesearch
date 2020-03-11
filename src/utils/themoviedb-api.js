@@ -1,20 +1,20 @@
 const baseUrl = "https://api.themoviedb.org/3/";
 
 
-export const fetchTrendingMovies = async () => {
-  const response = await fetch(`${baseUrl}trending/movie/day?api_key=${process.env.REACT_APP_API}`);
+export const fetchTrendingMovies = async (page) => {
+  const response = await fetch(`${baseUrl}trending/movie/day?api_key=${process.env.REACT_APP_API}&language=en-US&page=${page}`);
   const data = await response.json();
   return data.results;
 }
 
-export const fetchPopularMovies = async () => {
-  const response = await fetch(`${baseUrl}discover/movie?api_key=${process.env.REACT_APP_API}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`);
+export const fetchPopularMovies = async (page) => {
+  const response = await fetch(`${baseUrl}discover/movie?api_key=${process.env.REACT_APP_API}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`);
   const data = await response.json();
   return data.results;
 }
 
-export const fetchNewMovies = async () => {
-  const response = await fetch(`${baseUrl}discover/movie?api_key=${process.env.REACT_APP_API}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.lte=2020-03-08&vote_count.gte=20&vote_average.gte=4&with_runtime.gte=60`);
+export const fetchNewMovies = async (page) => {
+  const response = await fetch(`${baseUrl}discover/movie?api_key=${process.env.REACT_APP_API}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=${page}&release_date.lte=2020-03-08&vote_count.gte=20&vote_average.gte=4&with_runtime.gte=60`);
   const data = await response.json();
   return data.results;
 }
