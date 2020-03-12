@@ -1,45 +1,52 @@
-.cast-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
-  align-items: center;
-  gap: 1rem;
+.cast-list-container {
+  .title {
+    margin-bottom: 2rem;
+  }
 
-  .actor {
-    margin: 1rem 0;
-    font-size: 0.8rem;
-    position: relative;
-    animation: fade 2s;
-    
-    @keyframes fade {
-      from {
-        opacity: 0;
-      } to {
-        opacity: 1;
+  .cast-list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(4rem, 7rem));
+    align-items: center;
+    gap: 1rem;
+
+    .actor {
+      font-size: 0.8rem;
+      position: relative;
+      animation: fade 2s;
+
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .profile-image {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.5rem;
+      }
+
+      .name {
+        position: absolute;
+        bottom: 4px;
+        width: 100%;
+        height: auto;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        text-align: center;
+        border-radius: 0 0 0.5rem 0.5rem;
       }
     }
-    
-    .profile-image {
-      width: 100%;
-      object-fit: cover;  
-      border-radius: .5rem;
-    }
-    
-    .name {
-      position: absolute;
-      bottom: 4px;
-      width: 100%;
-      height: auto;
-      background: rgba(0, 0, 0, 0.6);
-      padding: .5rem;
-      font-size: .8rem;
+
+    .view-more {
+      cursor: pointer;
+      text-decoration: underline;
       text-align: center;
-      border-radius: 0 0 .5rem .5rem;
     }
-  }
-  
-  .view-more {
-    cursor: pointer;
-    text-decoration: underline;
-    text-align: center;
   }
 }

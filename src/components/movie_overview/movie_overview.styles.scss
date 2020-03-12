@@ -1,0 +1,13 @@
+.movie-overview {
+
+  .title {
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+}

@@ -137,7 +137,6 @@ const MainContent: FC<IProps> = ({ match, query }) => {
     onLoadMore: loadMoreMovies
   });
 
-  console.log(state);
   return (
     <Switch>
       <Route path={`${match.path}/movie/:movieId`}>

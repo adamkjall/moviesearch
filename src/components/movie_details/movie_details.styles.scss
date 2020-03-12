@@ -9,13 +9,18 @@
   //background-size: cover;
   background-position: center center;
   padding: 1.5rem;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   header {
     width: 100%;
+    padding: 2rem 0;
     display: grid;
     grid-template-columns: 3rem auto;
     align-items: center;
-    height: 20%;
 
     .go-back {
       cursor: pointer;
@@ -35,8 +40,6 @@
 
   main {
     width: 100%;
-    // height: 80%;
-
     display: grid;
     grid-template-columns: 1fr 2fr 2fr;
     align-items: start;
@@ -47,47 +50,29 @@
       min-width: 200px;
       height: auto;
     }
-
-    .details {
-      .title {
-        margin-bottom: 2rem;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 4fr;
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-    }
-
-    .actors {
-      .title {
-        margin-bottom: 2rem;
-      }
-    }
   }
 
   .trailer-list {
     margin-top: auto;
   }
-}
-@media screen and (max-width: 1250px) {
-  main {
-    grid-template-columns: 1fr 3fr 1fr;
+
+  @media screen and (max-width: 1250px) {
+    main {
+      grid-template-columns: 1fr 3fr 1fr;
+    }
   }
-}
 
-@media screen and (max-width: 1000px) {
-  .mainContentContainer {
-    grid-template-columns: repeat(3, 1fr);
+  @media screen and (max-width: 1000px) {
+    main {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
-}
 
-/*Mobil eller mindre plattor*/
+  /*Mobil eller mindre plattor*/
 
-@media screen and (max-width: 768px) {
-  .mainContentContainer {
-    grid-template-columns: repeat(2, 1fr);
+  @media screen and (max-width: 768px) {
+    main {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }

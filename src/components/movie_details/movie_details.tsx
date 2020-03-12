@@ -4,16 +4,15 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-
 import {
   getMovieDetails,
   getCast,
   baseImgUrl
 } from "../../utils/themoviedb-api";
 
-import Iframe from 'react-iframe'
 import CastList from "../cast_list/cast_list";
-import TrailerList from "../trailer_list/trailer_list"
+import TrailerList from "../trailer_list/trailer_list";
+import MovieOverview from "../movie_overview/movie_overview";
 
 import "./movie_details.styles.scss";
 
@@ -77,7 +76,9 @@ const MovieDetails: FC<IProps> = ({ history }) => {
         genres: movieDetails.genres.map(
           (genre: { name: String }) => genre.name
         ),
-        trailers: movieDetails.videos.results.filter((video: IVideo) => video.type === "Trailer")
+        trailers: movieDetails.videos.results.filter(
+          (video: IVideo) => video.type === "Trailer"
+        )
       }))
       .then((movie: IMovie) => setState(state => ({ ...state, movie })))
       .catch(console.log);
@@ -96,7 +97,6 @@ const MovieDetails: FC<IProps> = ({ history }) => {
 
   if (!state.movie) return <h2>Loading...</h2>;
 
-  console.log("movie" , state.movie)
   return (
     <section
       className="movie-details"
@@ -124,25 +124,17 @@ const MovieDetails: FC<IProps> = ({ history }) => {
           src={baseImgUrl + state.movie.poster_path}
           alt="movie poster"
         />
-        <div className="details">
-          <h2 className="title">Details</h2>
-          <div className="grid">
-            <span>Genres</span>
-            <span>{state.movie.genres.toString()}</span>
-            <span>Runtime</span>
-            <span>{state.movie.runtime} minutes</span>
-            <span>Rating</span>
-            <span>{state.movie.vote_average} / 10</span>
-            <span>Overview</span>
-          </div>
-          <div className="overview">{state.movie.overview}</div>
-        </div>
-        <div className="actors">
-          <h2 className="title">Actors</h2>
-          <CastList cast={state.cast} />
-        </div>
+
+        <MovieOverview
+          genres={state.movie.genres.toString()}
+          runtime={state.movie.runtime}
+          voteAverage={state.movie.vote_average}
+          overview={state.movie.overview}
+        />
+
+        <CastList cast={state.cast} />
       </main>
-        <TrailerList trailers={state.movie.trailers} />
+      <TrailerList trailers={state.movie.trailers} />
     </section>
   );
 };
