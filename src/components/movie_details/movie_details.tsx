@@ -4,13 +4,24 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-import { getMovieDetails, getCast, baseImgUrl } from "../../utils/themoviedb-api";
+import {
+  getMovieDetails,
+  getCast,
+  getVideos,
+  baseImgUrl
+} from "../../utils/themoviedb-api";
 
 import CastList from "../cast_list/cast_list";
 
 import "./movie_details.styles.scss";
 
 interface IProps extends RouteComponentProps {}
+
+interface IState {
+  movie: IMovie | null;
+  cast: ICastMember[];
+  videos?: any;
+}
 
 interface IMovie {
   id: number;
@@ -26,6 +37,7 @@ interface IMovie {
   overview: string;
   homepage: string; // url
   genres: { id: number; name: String }[];
+  video: boolean;
 }
 
 export interface ICastMember {
@@ -34,9 +46,13 @@ export interface ICastMember {
   character?: string;
 }
 
-const MovieDetails: FC<IProps> = ({ history, match }) => {
-  const [movie, setMovie] = useState<IMovie | null>(null);
-  const [cast, setCast] = useState<ICastMember[]>([]);
+const MovieDetails: FC<IProps> = ({ history }) => {
+  const [state, setState] = useState<IState>({
+    movie: null,
+    cast: []
+  });
+  // const [movie, setMovie] = useState<IMovie | null>(null);
+  // const [cast, setCast] = useState<ICastMember[]>([]);
 
   useEffect(() => {
     const movieId = history.location.pathname.split("/").pop();
@@ -47,7 +63,7 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
         year: movieDetails.release_date.split("-")[0],
         genres: movieDetails.genres.map((genre: { name: String }) => genre.name)
       }))
-      .then(movie => setMovie(movie))
+      .then((movie: IMovie) => setState(state => ({ ...state, movie })))
       .catch(console.log);
 
     getCast(movieId)
@@ -58,12 +74,11 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
           profile_path: person.profile_path
         }))
       )
-      .then(cast => setCast(cast))
+      .then(cast => setState(state => ({ ...state, cast })))
       .catch(console.log);
-
   }, [history.location.pathname]);
 
-  if (!movie) return <h2>Loading...</h2>;
+  if (!state.movie) return <h2>Loading...</h2>;
 
   return (
     <section
@@ -71,7 +86,7 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
       style={{
         background: `
           linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), 
-          url(${baseImgUrl}${movie.backdrop_path})
+          url(${baseImgUrl}${state.movie.backdrop_path})
         `,
         backgroundSize: "cover"
       }}
@@ -83,31 +98,31 @@ const MovieDetails: FC<IProps> = ({ history, match }) => {
           onClick={() => history.goBack()}
         />
         <h1 className="title">
-          {movie.title} <span className="year">({movie.year})</span>
+          {state.movie.title} <span className="year">({state.movie.year})</span>
         </h1>
       </header>
       <main>
         <img
           className="poster"
-          src={baseImgUrl + movie.poster_path}
+          src={baseImgUrl + state.movie.poster_path}
           alt="movie poster"
         />
         <div className="details">
           <h2 className="title">Details</h2>
           <div className="grid">
             <span>Genres</span>
-            <span>{movie.genres.toString()}</span>
+            <span>{state.movie.genres.toString()}</span>
             <span>Runtime</span>
-            <span>{movie.runtime} minutes</span>
+            <span>{state.movie.runtime} minutes</span>
             <span>Rating</span>
-            <span>{movie.vote_average} / 10</span>
+            <span>{state.movie.vote_average} / 10</span>
             <span>Overview</span>
           </div>
-          <div className="overview">{movie.overview}</div>
+          <div className="overview">{state.movie.overview}</div>
         </div>
         <div className="actors">
           <h2 className="title">Actors</h2>
-          <CastList cast={cast} />
+          <CastList cast={state.cast} />
           {/* <div className="grid">
             {!cast ? (
               <h2>Loading...</h2>

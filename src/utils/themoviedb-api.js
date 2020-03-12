@@ -72,3 +72,15 @@ export const getCast = async movieId => {
     console.log(error);
   }
 };
+
+export const getVideos = async movieId => {
+  try {
+    const response = await fetch(
+      `${baseUrl}movie/${movieId}/videos?api_key=${process.env.REACT_APP_API}&language=en-US`
+    );
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
