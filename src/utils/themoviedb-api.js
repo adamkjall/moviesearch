@@ -35,7 +35,7 @@ export const searchMovie = async (query = "", page = 1) => {
 
 export const getMovieDetails = async movieId => {
   const response = await fetch(
-    `${baseUrl}movie/${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US`
+    `${baseUrl}movie/${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US&append_to_response=videos,reviews`
   );
   const data = response.json();
   return data;

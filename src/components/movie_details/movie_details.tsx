@@ -4,21 +4,24 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
+
 import {
   getMovieDetails,
   getCast,
-  getVideos,
   baseImgUrl
 } from "../../utils/themoviedb-api";
 
+import Iframe from 'react-iframe'
 import CastList from "../cast_list/cast_list";
+import TrailerList from "../trailer_list/trailer_list"
 
 import "./movie_details.styles.scss";
 
 interface IProps extends RouteComponentProps {}
 
 interface IState {
-  movie: IMovie | null;
+  movieId?: string;
+  movie?: IMovie;
   cast: ICastMember[];
   videos?: any;
 }
@@ -37,7 +40,7 @@ interface IMovie {
   overview: string;
   homepage: string; // url
   genres: { id: number; name: String }[];
-  video: boolean;
+  trailers?: IVideo[];
 }
 
 export interface ICastMember {
@@ -46,22 +49,35 @@ export interface ICastMember {
   character?: string;
 }
 
+export interface IVideo {
+  id: string;
+  key: string;
+  name: string;
+  type: string;
+}
+
 const MovieDetails: FC<IProps> = ({ history }) => {
   const [state, setState] = useState<IState>({
-    movie: null,
+    movieId: undefined,
+    movie: undefined,
     cast: []
   });
-  // const [movie, setMovie] = useState<IMovie | null>(null);
-  // const [cast, setCast] = useState<ICastMember[]>([]);
 
   useEffect(() => {
     const movieId = history.location.pathname.split("/").pop();
+    setState(state => ({
+      ...state,
+      movieId
+    }));
 
     getMovieDetails(movieId)
       .then(movieDetails => ({
         ...movieDetails,
         year: movieDetails.release_date.split("-")[0],
-        genres: movieDetails.genres.map((genre: { name: String }) => genre.name)
+        genres: movieDetails.genres.map(
+          (genre: { name: String }) => genre.name
+        ),
+        trailers: movieDetails.videos.results.filter((video: IVideo) => video.type === "Trailer")
       }))
       .then((movie: IMovie) => setState(state => ({ ...state, movie })))
       .catch(console.log);
@@ -80,6 +96,7 @@ const MovieDetails: FC<IProps> = ({ history }) => {
 
   if (!state.movie) return <h2>Loading...</h2>;
 
+  console.log("movie" , state.movie)
   return (
     <section
       className="movie-details"
@@ -123,119 +140,11 @@ const MovieDetails: FC<IProps> = ({ history }) => {
         <div className="actors">
           <h2 className="title">Actors</h2>
           <CastList cast={state.cast} />
-          {/* <div className="grid">
-            {!cast ? (
-              <h2>Loading...</h2>
-            ) : (
-              cast.splice(0, 6).map((person, i) => (
-                <div key={i} className="actor">
-                  <h3>{person.name}</h3>
-                  <img
-                    src={
-                      person.profile_path
-                        ? `${baseImgUrl}${person.profile_path}`
-                        : "https://s3-ap-southeast-1.amazonaws.com/upcode/static/default-image.jpg"
-                    }
-                    alt="actor"
-                  />
-                </div>
-              ))
-            )}
-          </div> */}
         </div>
       </main>
+        <TrailerList trailers={state.movie.trailers} />
     </section>
   );
 };
 
 export default withRouter(MovieDetails);
-
-/* 
-{
-adult: false,
-backdrop_path: "/cjTQSwcsfVdirSFSHNBXRGkxmWa.jpg",
-belongs_to_collection: null,
-budget: 40000000,
-genres: [
-{
-id: 9648,
-name: "Mystery"
-},
-{
-id: 53,
-name: "Thriller"
-},
-{
-id: 35,
-name: "Comedy"
-},
-{
-id: 80,
-name: "Crime"
-},
-{
-id: 18,
-name: "Drama"
-}
-],
-homepage: "https://www.knivesout.movie/",
-id: 546554,
-imdb_id: "tt8946378",
-original_language: "en",
-original_title: "Knives Out",
-overview: "When renowned crime novelist Harlan Thrombey is found dead at his estate just after his 85th birthday, the inquisitive and debonair Detective Benoit Blanc is mysteriously enlisted to investigate. From Harlan's dysfunctional family to his devoted staff, Blanc sifts through a web of red herrings and self-serving lies to uncover the truth behind Harlan's untimely death.",
-popularity: 108.054,
-poster_path: "/pThyQovXQrw2m0s9x82twj48Jq4.jpg",
-production_companies: [
-{
-id: 1632,
-logo_path: "/cisLn1YAUuptXVBa0xjq7ST9cH0.png",
-name: "Lionsgate",
-origin_country: "US"
-},
-{
-id: 7493,
-logo_path: "/452FO4LcI6lA6bfgl6w1kQYRBlr.png",
-name: "FilmNation Entertainment",
-origin_country: "US"
-},
-{
-id: 11092,
-logo_path: null,
-name: "Ram Bergman Productions",
-origin_country: "US"
-},
-{
-id: 37871,
-logo_path: null,
-name: "T-Street Productions",
-origin_country: ""
-}
-],
-production_countries: [
-{
-iso_3166_1: "US",
-name: "United States of America"
-}
-],
-release_date: "2019-11-27",
-revenue: 163700000,
-runtime: 131,
-spoken_languages: [
-{
-iso_639_1: "es",
-name: "Español"
-},
-{
-iso_639_1: "en",
-name: "English"
-}
-],
-status: "Released",
-tagline: "Hell, any of them could have done it.",
-title: "Knives Out",
-video: false,
-vote_average: 7.8,
-vote_count: 2476
-}
-*/
