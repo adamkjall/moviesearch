@@ -5,6 +5,7 @@ import SearchBar from "../../components/searchbar/searchbar";
 import logo from "../../assets/logo.png";
 import { faFolderMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Spring, config } from "react-spring/renderprops";
 
 interface Iprops {
   setSearchQuery: (query: string) => void;
@@ -28,17 +29,14 @@ class Header extends React.Component<Iprops> {
           {this.errorTest()}
         </div>
         {/* <Profile /> */}
-        <img src={logo} style={{ height: "70%" }} alt={"site title"} />
-        <SearchBar
-          // id={1}
-          // label="Vad söker du?"
-          // predicted="Spiderman"
-          // locked={false}
-          // active={false}
-          // error=""
-          value=""
-          setSearchQuery={this.props.setSearchQuery}
-        />
+        <Spring
+          config={config.molasses}
+          from={{ opacity: 0, width: "20px" }}
+          to={{ opacity: 1, width: "250px" }}
+        >
+          {props => <img src={logo} style={props} alt={"site title"} />}
+        </Spring>
+        <SearchBar value="" setSearchQuery={this.props.setSearchQuery} />
       </div>
     );
   }
