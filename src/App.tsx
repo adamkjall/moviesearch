@@ -78,7 +78,7 @@ class App extends React.Component<IProps, IState> {
 
   setSearchQuery = (query: string) => {
     this.setState({ query: query + "~" + new Date() });
-    this.props.history.push(`${this.props.match.path}search`);
+    this.props.history.push(`${this.props.match.path}search/${query}`);
   };
 
   componentWillUnmount() {

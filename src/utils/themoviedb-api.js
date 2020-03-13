@@ -64,3 +64,19 @@ export const getVideos = async movieId => {
     console.log(error);
   }
 };
+
+export const fetchMovieFunction = (category="trending", page = 1, query=" ") => {
+  switch (category) {
+    case "search":
+      const extractedQuery = query.split("~")[0] || " "
+      return searchMovie(extractedQuery, page);
+    case "popular":
+      return fetchPopularMovies(page);
+    case "new":
+      return fetchNewMovies(page);
+    case "trending":
+      return fetchTrendingMovies(page);
+    default:
+      return fetchTrendingMovies(page);
+  }
+};
