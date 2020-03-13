@@ -20,7 +20,7 @@ import MovieDetails from "../movie_details/movie_details";
 
 import "./main_content.styles.css";
 interface IProps extends RouteComponentProps {
-  query: string;
+  query?: string;
 }
 
 const initialState = {
@@ -30,7 +30,7 @@ const initialState = {
   loading: false
 };
 
-const MainContent: FC<IProps> = ({ match, query }) => {
+const MainContent: FC<IProps> = ({ match, query = "" }) => {
   const [state, setState] = useState(initialState);
 
   // match.path : "trending" | "popular" | "new"

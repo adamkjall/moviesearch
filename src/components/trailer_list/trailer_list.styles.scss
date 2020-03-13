@@ -1,10 +1,19 @@
-.trailer-list {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 22rem));
-  grid-template-rows: repeat(auto-fit, minmax(5rem, 12rem));
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0;
+.trailer-list-container {
+  // height: 600px;
+  .title {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .trailer-list {
+    width: 100%;
+    height: inherit;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 22rem));
+    grid-auto-rows: 12rem;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0 2.5rem 0;
+  }
 }

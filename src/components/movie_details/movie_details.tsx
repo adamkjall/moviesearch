@@ -101,14 +101,10 @@ const MovieDetails: FC<IProps> = ({ history }) => {
     <section
       className="movie-details"
       style={{
-        background: `
-          linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), 
-          url(${baseImgUrl}${state.movie.backdrop_path})
-        `,
-        backgroundSize: "cover"
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${baseImgUrl}${state.movie.backdrop_path})`
       }}
     >
-      <header>
+      <header className="header">
         <FontAwesomeIcon
           className="go-back"
           icon={faArrowLeft}
@@ -118,22 +114,18 @@ const MovieDetails: FC<IProps> = ({ history }) => {
           {state.movie.title} <span className="year">({state.movie.year})</span>
         </h1>
       </header>
-      <main>
-        <img
-          className="poster"
-          src={baseImgUrl + state.movie.poster_path}
-          alt="movie poster"
-        />
-
-        <MovieOverview
-          genres={state.movie.genres.toString()}
-          runtime={state.movie.runtime}
-          voteAverage={state.movie.vote_average}
-          overview={state.movie.overview}
-        />
-
-        <CastList cast={state.cast} />
-      </main>
+      <img
+        className="poster"
+        src={baseImgUrl + state.movie.poster_path}
+        alt="movie poster"
+      />
+      <MovieOverview
+        genres={state.movie.genres.toString()}
+        runtime={state.movie.runtime}
+        voteAverage={state.movie.vote_average}
+        overview={state.movie.overview}
+      />
+      <CastList cast={state.cast} />
       <TrailerList trailers={state.movie.trailers} />
     </section>
   );

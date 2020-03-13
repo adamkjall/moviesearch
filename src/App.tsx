@@ -33,8 +33,8 @@ type User = {
   createdAt: Date;
 };
 
-interface Iprops {
-  hideLogo: boolean;
+interface IProps extends RouteComponentProps {
+
 }
 interface IState {
   currentUser: User | null;
@@ -42,7 +42,7 @@ interface IState {
   showSidebar: boolean;
 }
 
-class App extends React.Component<RouteComponentProps, IState, Iprops> {
+class App extends React.Component<IProps, IState> {
   private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
 
   state = {
