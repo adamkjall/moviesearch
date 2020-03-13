@@ -6,6 +6,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 interface Props {
   value: string;
   setSearchQuery: (query: string) => void;
+  toggleLogo: (expanded: boolean) => void;
 }
 
 interface State {
@@ -27,6 +28,7 @@ class SearchBar extends React.Component<Props, State> {
     this.setState(state => ({
       expanded: !state.expanded
     }));
+    this.props.toggleLogo(this.state.expanded);
   }
 
   changeValue(event: React.ChangeEvent<HTMLInputElement>) {
