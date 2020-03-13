@@ -10,6 +10,19 @@ interface IProps {
 }
 
 class Navbar extends React.Component<IProps> {
+  componentDidMount() {
+    const li: any = document.querySelectorAll("li");
+
+    for (let i = 0; i < li.length; i++) {
+      li[i].addEventListener("click", (e: any) => {
+        for (let i = 0; i < li.length; i++) {
+          li[i].classList.remove("active");
+        }
+        e.target.classList.add("active");
+      });
+    }
+  }
+
   render() {
     return (
       <nav>

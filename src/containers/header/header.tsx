@@ -5,13 +5,24 @@ import SearchBar from "../../components/searchbar/searchbar";
 import logo from "../../assets/logo.png";
 import { faFolderMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Spring, config } from "react-spring/renderprops";
 
 interface Iprops {
   setSearchQuery: (query: string) => void;
   toggleSidebar: () => void;
+  hideLogo: boolean;
+}
+interface Istate {
+  toggle: boolean;
 }
 
-class Header extends React.Component<Iprops> {
+class Header extends React.Component<Iprops, Istate> {
+  state = {
+    toggle: true
+  };
+
+  toggle = () => this.setState({ toggle: !this.state.toggle });
+
   //Able to simulate ErrorBoundaries
   errorTest = () => {
     if (1 > 99) {
@@ -21,21 +32,31 @@ class Header extends React.Component<Iprops> {
     return <FontAwesomeIcon icon={faFolderMinus} />;
   };
 
+  myCallback = () => {
+    if (this.props.hideLogo === false) {
+      this.setState({ toggle: !this.state.toggle });
+    }
+    console.log(this.props.hideLogo, this.state.toggle);
+  };
+  // skicka in props från windows resize
+
   render() {
+    // const toggle = this.state.toggle;
     return (
       <div className="headerContainer">
         <div className="hamburgerMenu" onClick={this.props.toggleSidebar}>
           {this.errorTest()}
         </div>
         {/* <Profile /> */}
-        <img src={logo} style={{ height: "70%" }} alt={"site title"} />
+        <Spring
+          config={config.molasses}
+          from={{ opacity: 0, width: "20px" }}
+          to={{ opacity: this.state.toggle ? 1 : 0, width: "250px" }}
+        >
+          {props => <img src={logo} style={props} alt={"site title"} />}
+        </Spring>
         <SearchBar
-          // id={1}
-          // label="Vad söker du?"
-          // predicted="Spiderman"
-          // locked={false}
-          // active={false}
-          // error=""
+          toggleLogo={this.myCallback}
           value=""
           setSearchQuery={this.props.setSearchQuery}
         />

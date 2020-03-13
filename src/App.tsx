@@ -33,13 +33,16 @@ type User = {
   createdAt: Date;
 };
 
+interface Iprops {
+  hideLogo: boolean;
+}
 interface IState {
   currentUser: User | null;
   query: string;
   showSidebar: boolean;
 }
 
-class App extends React.Component<RouteComponentProps, IState> {
+class App extends React.Component<RouteComponentProps, IState, Iprops> {
   private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
 
   state = {
@@ -49,6 +52,7 @@ class App extends React.Component<RouteComponentProps, IState> {
   };
 
   componentDidMount() {
+    this.handleResize();
     window.addEventListener("resize", this.handleResize);
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -94,7 +98,6 @@ class App extends React.Component<RouteComponentProps, IState> {
 
   toggleSidebar = () => {
     this.setState({ showSidebar: !this.state.showSidebar });
-    console.log(this.state.showSidebar);
   };
   render() {
     const { currentUser, query } = this.state;
@@ -104,6 +107,7 @@ class App extends React.Component<RouteComponentProps, IState> {
           <Header
             setSearchQuery={this.setSearchQuery}
             toggleSidebar={this.toggleSidebar}
+            hideLogo={this.state.showSidebar}
           />
         </ErrorBoundary>
         <div style={styles}>

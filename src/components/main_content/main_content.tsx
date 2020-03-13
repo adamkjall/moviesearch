@@ -156,7 +156,6 @@ const MainContent: FC<IProps> = ({ match, query }) => {
             {state.loading && <h3>Loading more movies...</h3>}
           </div>
         </div>
-        )
       </Route>
     </Switch>
   );
