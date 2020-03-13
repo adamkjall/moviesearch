@@ -4,17 +4,31 @@
   color: rgba(255, 255, 255, 0.932);
   background-color: #333;
   background-repeat: no-repeat;
-  //background-size: cover;
-  background-position: center center;
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem;
+  overflow: auto;
 
-  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "header   header   header"
+    "poster   overview overview"
+    "poster   cast     cast"
+    ".        .        ."
+    "trailers trailers trailers";
+  gap: 1.5rem;
 
-  header {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header {
+    grid-area: header;
     width: 100%;
+    padding: 2rem 0;
     display: grid;
-    grid-template-columns: 3rem auto;
-    align-items: center;
-    height: 20%;
+    grid-template-columns: 4rem auto;
 
     .go-back {
       cursor: pointer;
@@ -32,72 +46,69 @@
     }
   }
 
-  main {
-    width: 100%;
-    height: 80%;
+  .poster {
+    grid-area: poster;
+    width: inherit;
+    min-width: 15rem;
+    max-width: 25rem;
+    height: auto;
+  }
 
-    display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
-    align-items: start;
-    gap: 3rem;
+  .movie-overview {
+    grid-area: overview;
+  }
+  .cast-list-container {
+    grid-area: cast;
+  }
+
+  .trailer-list-container {
+    grid-area: trailers;
+  }
+
+  @media screen and (max-width: 1250px) {
+    grid-template-areas:
+      "header   header   header"
+      "poster   overview overview"
+      "cast   cast     cast"
+      ".        .        ."
+      "trailers trailers trailers";
+
+    .cast-list-container {
+      .title {
+        text-align: center;
+        margin-top: 1rem;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+  }
+  /*Mobil eller mindre plattor*/
+
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
 
     .poster {
-      width: 100%;
-      min-width: 200px;
-      height: auto;
+      min-width: 3rem;
     }
+  }
 
-    .details {
+  @media screen and (max-width: 450px) {
+    grid-template-areas:
+      "header   header   header"
+      "overview overview overview"
+      "cast     cast     cast"
+      ".        .        ."
+      "trailers trailers trailers";
+
+    .header {
       .title {
-        margin-bottom: 2rem;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 4fr;
-        gap: 1rem;
-        margin-bottom: 2rem;
+        font-size: 1.8rem;
       }
     }
 
-    .actors {
-      .title {
-        margin-bottom: 2rem;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-      .actor {
-        margin: 0.5rem 0;
-        font-size: 0.8rem;
-
-        img {
-          width: 55px;
-          height: 55px;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-      }
+    .poster {
+      display: none;
     }
-  }
-}
-@media screen and (max-width: 1250px) {
-  main {
-    grid-template-columns: 1fr 3fr 1fr;
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  .mainContentContainer {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/*Mobil eller mindre plattor*/
-
-@media screen and (max-width: 768px) {
-  .mainContentContainer {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

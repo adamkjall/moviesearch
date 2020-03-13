@@ -1,4 +1,5 @@
 const baseUrl = "https://api.themoviedb.org/3/";
+export const baseImgUrl = "https://image.tmdb.org/t/p/original";
 
 export const fetchTrendingMovies = async (page = 1) => {
   const response = await fetch(
@@ -34,26 +35,32 @@ export const searchMovie = async (query = "", page = 1) => {
 
 export const getMovieDetails = async movieId => {
   const response = await fetch(
-    `${baseUrl}${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US`
+    `${baseUrl}movie/${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US&append_to_response=videos,reviews`
   );
   const data = response.json();
-  const details = {
-    ...data,
-    year: data.release_date.split("-")[0],
-    genres: data.genres.map(genre => genre.name)
-  };
-  return details;
+  return data;
 };
 
 export const getCast = async movieId => {
-  const response = await fetch(
-    `${baseUrl}${movieId}/credits?api_key=${process.env.REACT_APP_API}`
-  );
-  const data = response.json();
-  const cast = data.map(actor => ({
-    name: actor.name,
-    character: actor.character,
-    profile_path: actor.profile_path
-  }));
-  return cast;
+  try {
+    const response = await fetch(
+      `${baseUrl}movie/${movieId}/credits?api_key=${process.env.REACT_APP_API}`
+    );
+    const data = await response.json();
+    return data.cast;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getVideos = async movieId => {
+  try {
+    const response = await fetch(
+      `${baseUrl}movie/${movieId}/videos?api_key=${process.env.REACT_APP_API}&language=en-US`
+    );
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.log(error);
+  }
 };
