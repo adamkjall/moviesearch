@@ -10,21 +10,22 @@
 body {
   font-family: "Spartan", Verdana, Geneva, Tahoma, sans-serif;
   height: 100vh;
-  /* background: rgb(44,53,49);
-  background: linear-gradient(126deg, #161e27 0%, #232f3d 100%); */
-  /* background-color: #485461;
-  background-image: linear-gradient(315deg, #2f3a46 0%, #242b31 74%); */
-  background: #2c3e50; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #2c3e50,
-    #8096a1
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #2c3e50,
-    #8096a1
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  background: #0f0a3c; /* fallback for old browsers */
+  background: radial-gradient(100% 225% at 100% 0%, #ff0000 0%, #000000 100%),
+    linear-gradient(236deg, #00c2ff 0%, #000000 100%),
+    linear-gradient(
+      135deg,
+      #cdffeb 0%,
+      #cdffeb 36%,
+      #009f9d 36%,
+      #009f9d 60%,
+      #07456f 60%,
+      #07456f 67%,
+      #0f0a3c 67%,
+      #0f0a3c 100%
+    );
+  background-blend-mode: overlay, hard-light, normal;
 }
 
 a {
