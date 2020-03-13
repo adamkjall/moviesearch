@@ -25,7 +25,7 @@ interface IState {
   videos?: any;
 }
 
-interface IMovie {
+export interface IMovie {
   id: number;
   title: string;
   release_date: string;
