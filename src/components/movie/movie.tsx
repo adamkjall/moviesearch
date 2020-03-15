@@ -1,6 +1,8 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
+import { addMovieToWatchlist } from "../../firebase/firebase.utils";
+
 import "./movie.styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,10 +11,13 @@ import {
   faInfoCircle
 } from "@fortawesome/free-solid-svg-icons";
 
+import { User } from "../../App";
+
 interface IProps extends RouteComponentProps {
   id: number;
   rating: string;
   poster: any;
+  user: User | null;
 }
 
 class Movie extends React.Component<IProps> {
@@ -36,8 +41,16 @@ class Movie extends React.Component<IProps> {
     }
   };
 
+  handleAddToFavorites = () => {
+    const { user, id } = this.props;
+
+    if (user) {
+      addMovieToWatchlist(user.id, id)
+    }
+  }
+
   render() {
-    const { history, match, id, rating } = this.props;
+    const { history, match, id, rating, user } = this.props;
     return (
       <div className="movie-card">
         {this.renderPosters()}
@@ -51,7 +64,7 @@ class Movie extends React.Component<IProps> {
             Seen it!
             <FontAwesomeIcon icon={faCheck} style={{ color: "#74FC88" }} />
           </button>
-          <button>
+          <button onClick={this.handleAddToFavorites}>
             Add to watchlist
             <FontAwesomeIcon icon={faPlus} style={{ color: "#FE7A67" }} />
           </button>

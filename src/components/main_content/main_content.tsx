@@ -11,13 +11,16 @@ import { useInfiniteScroll } from "react-infinite-scroll-hook";
 import { fetchMovieFunction } from "../../utils/themoviedb-api";
 
 import { IMovie } from "../movie_details/movie_details";
+import { User } from "../../App";
 
 import Movie from "../movie/movie";
 import MovieDetails from "../movie_details/movie_details";
 
 import "./main_content.styles.css";
+
 interface IProps extends RouteComponentProps {
   query?: string;
+  user: User | null;
 }
 
 interface IState {
@@ -34,8 +37,8 @@ const initialState = {
   loading: false
 };
 
-const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
-  const [state, setState] = useState(initialState);
+const MainContent: FC<IProps> = ({ match, location, query = "", user }) => {
+  const [state, setState] = useState<IState>(initialState);
 
   // match.path : "trending" | "popular" | "new"
   // om match.path ändras så kommer denna funktionen köras igen
@@ -110,6 +113,7 @@ const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
                 id={movie.id}
                 rating={movie.vote_average}
                 poster={movie.poster_path}
+                user={user}
               />
             ))}
             {state.loading && <h3>Loading more movies...</h3>}

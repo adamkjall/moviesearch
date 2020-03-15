@@ -39,6 +39,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         displayName,
         email,
         createdAt,
+        watchlist: [],
         ...additionalData
       });
     } catch (error) {
@@ -47,6 +48,29 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   }
 
   return userRef;
+};
+
+export const addMovieToWatchlist = async (userId, movieId) => {
+  firestore
+    .collection("users")
+    .doc(`${userId}`)
+    .update({
+      watchlist: firebase.firestore.FieldValue.arrayUnion(movieId)
+    })
+    .then(() => console.log(`MovieId: ${movieId} added to watchlist.`))
+    .catch(error => console.log("Error adding movie to watchlist: ", error));
+};
+
+export const getWatchlist = async userId => {
+  const userDoc = await firestore
+    .collection("users")
+    .doc(`${userId}`)
+    .get();
+  if (userDoc.exists) {
+    return userDoc.data().watchlist;
+  } else {
+    console.log("Document does not exist");
+  }
 };
 
 export default firebase;

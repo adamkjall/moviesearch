@@ -20,22 +20,21 @@ import Sidebar from "./components/sidebar/sidebar";
 import MainContent from "./components/main_content/main_content";
 import Navbar from "./components/navbar/navbar";
 import ErrorBoundary from "./errorBoundary";
+import WatchList from "./components/watchlist/watchlist";
 
 const styles: CSSProperties = {
   display: "flex",
   height: "calc(100vh - 80px)"
 };
 
-type User = {
+export type User = {
   id: string;
   displayName: string;
   email: string;
   createdAt: Date;
 };
 
-interface IProps extends RouteComponentProps {
-
-}
+interface IProps extends RouteComponentProps {}
 interface IState {
   currentUser: User | null;
   query: string;
@@ -134,16 +133,19 @@ class App extends React.Component<IProps, IState> {
                 <Redirect from="/" to="trending" />
               </Route>
               <Route path="/trending">
-                <MainContent query={query} />
+                <MainContent query={query} user={this.state.currentUser} />
               </Route>
               <Route path="/popular">
-                <MainContent query={query} />
+                <MainContent query={query} user={this.state.currentUser} />
               </Route>
               <Route path="/new">
-                <MainContent query={query} />
+                <MainContent query={query} user={this.state.currentUser} />
               </Route>
               <Route path="/search">
-                <MainContent query={query} />
+                <MainContent query={query} user={this.state.currentUser} />
+              </Route>
+              <Route path="/watchlist">
+                <WatchList user={currentUser} />
               </Route>
             </Switch>
           </ErrorBoundary>
