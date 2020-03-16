@@ -33,9 +33,7 @@ type User = {
   createdAt: Date;
 };
 
-interface IProps extends RouteComponentProps {
-
-}
+interface IProps extends RouteComponentProps {}
 interface IState {
   currentUser: User | null;
   showSidebar: boolean;
@@ -82,7 +80,7 @@ class App extends React.Component<IProps, IState> {
   }
 
   handleResize = () => {
-    if (window.innerWidth < 768 && this.state.showSidebar) {
+    if (window.innerWidth <= 768 && this.state.showSidebar) {
       this.setState({ showSidebar: false });
     } else if (window.innerWidth > 768 && !this.state.showSidebar) {
       this.setState({ showSidebar: true });
@@ -126,7 +124,7 @@ class App extends React.Component<IProps, IState> {
                 <Redirect from="/" to="trending" />
               </Route>
               <Route path="/:category">
-                <MainContent  />
+                <MainContent />
               </Route>
             </Switch>
           </ErrorBoundary>
