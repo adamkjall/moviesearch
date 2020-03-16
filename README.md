@@ -19,3 +19,6 @@ and then
 
 "npm start"
 
+## Link to github
+
+https://github.com/Stenis76/moviesearch
