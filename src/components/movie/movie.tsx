@@ -11,7 +11,7 @@ import {
 
 interface IProps extends RouteComponentProps {
   id: number;
-  rating: string;
+  rating: number;
   poster: any;
 }
 

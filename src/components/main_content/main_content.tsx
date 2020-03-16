@@ -35,7 +35,7 @@ const initialState = {
 };
 
 const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<IState>(initialState);
 
   // match.path : "trending" | "popular" | "new"
   // om match.path ändras så kommer denna funktionen köras igen
@@ -43,7 +43,7 @@ const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
   useEffect(() => {
     setState(initialState);
     const category = match.path.replace("/", "");
-
+    
     fetchMovieFunction(category, 1).then(data => {
       const hasNext = data.page < data.total_pages;
       setState({
@@ -57,8 +57,10 @@ const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
   // denna effekten synkar komponenten efter query prop
   // om queryn ändras så körs denna funktionen
   useEffect(() => {
+    const hasSearch = location.pathname.split("/").includes("search");
     const query = location.pathname.split("/").pop();
-    if (!query) return;
+    
+    if (!hasSearch || !query) return;
 
     setState(initialState);
 
@@ -95,7 +97,7 @@ const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
     hasNextPage: state.hasNextPage,
     onLoadMore: loadMoreMovies
   });
-
+  
   return (
     <Switch>
       <Route path={`${match.path}/movie/:movieId`}>
@@ -104,9 +106,9 @@ const MainContent: FC<IProps> = ({ match, location, query = "" }) => {
       <Route path={match.path}>
         <div className="mainContentContainer">
           <div className="movie-list" ref={infiniteRef}>
-            {state.movies.map((movie: any) => (
+            {state.movies.map((movie: IMovie, index) => (
               <Movie
-                key={movie.id}
+                key={index}
                 id={movie.id}
                 rating={movie.vote_average}
                 poster={movie.poster_path}
