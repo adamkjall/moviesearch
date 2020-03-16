@@ -27,13 +27,13 @@ class Navbar extends React.Component<IProps> {
     return (
       <nav>
         <ul>
-          <Link to="/trending/">
+          <Link to="/trending">
             <li>Trending movies</li>
           </Link>
-          <Link to="/popular/">
+          <Link to="/popular">
             <li>Popular movies</li>
           </Link>
-          <Link to="/new/">
+          <Link to="/new">
             <li>New movies</li>
           </Link>
           <hr></hr>

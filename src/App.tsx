@@ -133,18 +133,18 @@ class App extends React.Component<IProps, IState> {
               <Route exact path="/">
                 <Redirect from="/" to="trending" />
               </Route>
-              <Route path="/trending">
-                <MainContent query={query} />
+              <Route path="/:category">
+                <MainContent  />
               </Route>
-              <Route path="/popular">
-                <MainContent query={query} />
+              {/* <Route path="/popular">
+                <MainContent />
               </Route>
               <Route path="/new">
-                <MainContent query={query} />
+                <MainContent  />
               </Route>
               <Route path="/search">
-                <MainContent query={query} />
-              </Route>
+                <MainContent  />
+              </Route> */}
             </Switch>
           </ErrorBoundary>
         </div>
