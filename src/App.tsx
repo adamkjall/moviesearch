@@ -38,7 +38,6 @@ interface IProps extends RouteComponentProps {
 }
 interface IState {
   currentUser: User | null;
-  query: string;
   showSidebar: boolean;
 }
 
@@ -47,7 +46,6 @@ class App extends React.Component<IProps, IState> {
 
   state = {
     currentUser: null,
-    query: "",
     showSidebar: true
   };
 
@@ -76,11 +74,6 @@ class App extends React.Component<IProps, IState> {
     });
   }
 
-  setSearchQuery = (query: string) => {
-    this.setState({ query: query + "~" + new Date() });
-    this.props.history.push(`${this.props.match.path}search/${query}`);
-  };
-
   componentWillUnmount() {
     if (this.unsubscribeFromAuth) {
       this.unsubscribeFromAuth();
@@ -100,12 +93,11 @@ class App extends React.Component<IProps, IState> {
     this.setState({ showSidebar: !this.state.showSidebar });
   };
   render() {
-    const { currentUser, query } = this.state;
+    const { currentUser } = this.state;
     return (
       <ErrorBoundary>
         <ErrorBoundary>
           <Header
-            setSearchQuery={this.setSearchQuery}
             toggleSidebar={this.toggleSidebar}
             hideLogo={this.state.showSidebar}
           />
@@ -133,17 +125,8 @@ class App extends React.Component<IProps, IState> {
               <Route exact path="/">
                 <Redirect from="/" to="trending" />
               </Route>
-              <Route path="/trending">
-                <MainContent query={query} />
-              </Route>
-              <Route path="/popular">
-                <MainContent query={query} />
-              </Route>
-              <Route path="/new">
-                <MainContent query={query} />
-              </Route>
-              <Route path="/search">
-                <MainContent query={query} />
+              <Route path="/:category">
+                <MainContent  />
               </Route>
             </Switch>
           </ErrorBoundary>

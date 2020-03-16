@@ -1,11 +1,11 @@
 import React from "react";
+import { withRouter, RouteComponentProps} from "react-router-dom";
 import "./searchbar.styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-interface Props {
+interface Props extends RouteComponentProps {
   value: string;
-  setSearchQuery: (query: string) => void;
   toggleLogo: (expanded: boolean) => void;
 }
 
@@ -37,7 +37,9 @@ class SearchBar extends React.Component<Props, State> {
 
   handleKeyPress(event: any) {
     if (event.which === 13) {
-      this.props.setSearchQuery(this.state.value);
+      // update url with the search query
+      this.props.history.push(`${this.props.match.url}search/${this.state.value}`)
+   
       this.setState({ value: "" });
       event.target.value = "";
     }
@@ -73,4 +75,4 @@ class SearchBar extends React.Component<Props, State> {
   }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);
