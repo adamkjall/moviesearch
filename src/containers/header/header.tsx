@@ -1,6 +1,6 @@
 import React from "react";
 import "./header.styles.css";
-import Profile from "../../components/profile/profile";
+// import Profile from "../../components/profile/profile";
 import SearchBar from "../../components/searchbar/searchbar";
 import logo from "../../assets/logo.png";
 import { faFolderMinus } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spring, config } from "react-spring/renderprops";
 
 interface Iprops {
-  setSearchQuery: (query: string) => void;
   toggleSidebar: () => void;
   hideLogo: boolean;
 }
@@ -36,7 +35,6 @@ class Header extends React.Component<Iprops, Istate> {
     if (this.props.hideLogo === false) {
       this.setState({ toggle: !this.state.toggle });
     }
-    console.log(this.props.hideLogo, this.state.toggle);
   };
   // skicka in props från windows resize
 
@@ -58,7 +56,6 @@ class Header extends React.Component<Iprops, Istate> {
         <SearchBar
           toggleLogo={this.myCallback}
           value=""
-          setSearchQuery={this.props.setSearchQuery}
         />
       </div>
     );

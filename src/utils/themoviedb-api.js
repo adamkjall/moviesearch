@@ -88,8 +88,7 @@ export const fetchMovieFunction = (
 ) => {
   switch (category) {
     case "search":
-      const extractedQuery = query.split("~")[0] || " ";
-      return searchMovie(extractedQuery, page);
+      return searchMovie(query, page);
     case "popular":
       return fetchPopularMovies(page);
     case "new":
