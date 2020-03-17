@@ -31,10 +31,8 @@ class Header extends React.Component<Iprops, Istate> {
     return <FontAwesomeIcon icon={faFolderMinus} />;
   };
 
-  myCallback = () => {
-    if (this.props.hideLogo === false) {
-      this.setState({ toggle: !this.state.toggle });
-    }
+  myCallback = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    this.setState({ toggle: !this.state.toggle });
   };
   // skicka in props från windows resize
 
@@ -49,11 +47,19 @@ class Header extends React.Component<Iprops, Istate> {
         <Spring
           config={config.molasses}
           from={{ opacity: 0, width: "20px" }}
-          to={{ opacity: this.state.toggle ? 1 : 0, width: "250px" }}
+          to={{
+            opacity:
+              (!this.state.toggle && window.innerWidth <= 768) ||
+              window.innerWidth > 768
+                ? 1
+                : 0,
+            width: "250px"
+          }}
         >
           {props => <img src={logo} style={props} alt={"site title"} />}
         </Spring>
         <SearchBar
+          expanded={this.state.toggle}
           toggleLogo={this.myCallback}
           value=""
         />
