@@ -32,7 +32,7 @@ const SignIn = () => {
   return (
     <div className="sign-in">
       <h2 className="title">LOGIN</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="sign-in-form" onSubmit={handleSubmit}>
         <FormInput
           handleChange={handleChange}
           label="email"
