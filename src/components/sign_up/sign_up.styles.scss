@@ -1,22 +1,47 @@
 .sign-up {
-  background: #3f203d;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #34a0aa, #3f203d);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #447f85, #3f203d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+  background: #0f0a3c; /* fallback for old browsers */
+  background: radial-gradient(100% 225% at 100% 0%, #ff0000 0%, #000000 100%),
+    linear-gradient(50deg, #00c2ff 0%, #000000 100%),
+    linear-gradient(
+      135deg,
+      #cdffeb 0%,
+      #cdffeb 36%,
+      #009f9d 36%,
+      #009f9d 60%,
+      #07456f 60%,
+      #07456f 67%,
+      #0f0a3c 67%,
+      #0f0a3c 100%
+    );
+  background-blend-mode: overlay, hard-light, normal;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem;
-  margin: 3rem auto;
-  min-width: 30rem;
+  margin: auto;
+  width: 100%;
+  max-width: 30rem;
   border-radius: 1rem;
-
+  
   .title {
     color: white;
+    padding-top: 1.5rem;
   }
-
+  
   .sign-up-form {
     width: 100%;
+    padding: 0 4rem 4rem 4rem;
+  }
+
+
+  @media screen and (max-width: 450px) {
+
+    margin: auto 2rem; 
+
+    .sign-up-form {
+      width: 100%;
+      padding: 0 2rem 2rem 2rem;
+    }
   }
 
  
