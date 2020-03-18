@@ -34,7 +34,7 @@ const initialState = {
   loading: false
 };
 
-const MainContent: FC<IProps> = ({ match, location}) => {
+const MainContent: FC<IProps> = ({ match, location }) => {
   const [state, setState] = useState<IState>(initialState);
   const { category } = useParams();
 
@@ -43,7 +43,7 @@ const MainContent: FC<IProps> = ({ match, location}) => {
   // den synkar komponenten efter props, category i detta fallet
   useEffect(() => {
     setState(initialState);
-   
+
     fetchMovieFunction(category, 1).then(data => {
       const hasNext = data.page < data.total_pages;
       setState({
@@ -58,8 +58,8 @@ const MainContent: FC<IProps> = ({ match, location}) => {
   // om queryn ändras så körs denna funktionen
   useEffect(() => {
     const query = location.pathname.split("/").pop();
-    
-    if ((category !== "search") || !query) return;
+
+    if (category !== "search" || !query) return;
 
     setState(initialState);
 
@@ -96,7 +96,7 @@ const MainContent: FC<IProps> = ({ match, location}) => {
     hasNextPage: state.hasNextPage,
     onLoadMore: loadMoreMovies
   });
-  
+
   return (
     <Switch>
       <Route path={`${match.path}/movie/:movieId`}>
