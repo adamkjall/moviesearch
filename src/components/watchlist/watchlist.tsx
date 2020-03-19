@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { getWatchlist } from "../../firebase/firebase.utils";
+import { firestore, getWatchlist } from "../../firebase/firebase.utils";
 
 import Movie from "../movie/movie";
 
@@ -14,33 +14,44 @@ interface IProps {
 type IMovie = {
   id: number;
   rating: number;
-  posterPath: string;
+  poster_path: string;
 };
 
 const WatchList: FC<IProps> = ({ user }) => {
   const [movies, setMovies] = useState<IMovie[]>([]);
 
   useEffect(() => {
-    const getMovieIds = async () => {
-      if (user) {
-        const ids = await getWatchlist(user.id);
-        setMovies(ids);
-      }
-    };
-
-    getMovieIds();
+    if (user) {
+      firestore
+        .collection("users")
+        .doc(`${user.id}`)
+        .collection("watchlist")
+        .onSnapshot(snapshot => {
+          const watchlist: IMovie[] = [];
+          snapshot.forEach(doc => {
+            const movie = doc.data() as IMovie;
+            watchlist.push(movie);
+          });
+          setMovies(watchlist);
+        });
+    } else {
+      setMovies([]);
+    }
   }, [user]);
 
   return (
-    <div className="watchlist">
-      {movies.map(movie => (
-        <Movie
-          user={user}
-          id={movie.id}
-          rating={movie.rating}
-          poster={movie.posterPath}
-        />
-      ))}
+    <div className="watchlist-container">
+      <div className="watchlist">
+        {movies.map(movie => (
+          <Movie
+            key={movie.id}
+            user={user}
+            id={movie.id}
+            rating={movie.rating}
+            poster={movie.poster_path}
+          />
+        ))}
+      </div>
     </div>
   );
 };

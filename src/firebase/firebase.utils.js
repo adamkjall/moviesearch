@@ -60,6 +60,19 @@ export const addMovieToWatchlist = async (userId, movie) => {
     .catch(error => console.log("Error adding movie to watchlist: ", error));
 };
 
+export const removeMovieFromWatchlist = async (userId, movieId) => {
+  firestore
+    .collection("users")
+    .doc(`${userId}`)
+    .collection("watchlist")
+    .doc(`${movieId}`)
+    .delete()
+    .then(() => console.log(`MovieId: ${movieId} delted from watchlist.`))
+    .catch(error =>
+      console.log("Error deleting movie from watchlist: ", error)
+    );
+};
+
 export const getWatchlist = async userId => {
   const watchlist = [];
 
