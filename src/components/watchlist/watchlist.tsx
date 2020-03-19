@@ -1,39 +1,48 @@
 import React, { FC, useEffect, useState } from "react";
 
 import { getWatchlist } from "../../firebase/firebase.utils";
-import { getMovieDetails } from "../../utils/themoviedb-api";
+
+import Movie from "../movie/movie";
 
 import { User } from "../../App";
-import { IMovie } from "../movie_details/movie_details"
 
+import "./watchlist.styles.scss";
 interface IProps {
   user: User | null;
 }
 
-interface IState {
-  movies: IMovie[];
-}
+type IMovie = {
+  id: number;
+  rating: number;
+  posterPath: string;
+};
 
 const WatchList: FC<IProps> = ({ user }) => {
-  const [movies, setMovies] = useState<IState>();
+  const [movies, setMovies] = useState<IMovie[]>([]);
 
   useEffect(() => {
     const getMovieIds = async () => {
       if (user) {
         const ids = await getWatchlist(user.id);
-        
+        setMovies(ids);
       }
-      return [];
     };
 
-    getMovieIds()
-    
-     
-
-  
+    getMovieIds();
   }, [user]);
 
-  return <div></div>;
+  return (
+    <div className="watchlist">
+      {movies.map(movie => (
+        <Movie
+          user={user}
+          id={movie.id}
+          rating={movie.rating}
+          poster={movie.posterPath}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default WatchList;

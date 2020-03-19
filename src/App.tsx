@@ -145,8 +145,11 @@ class App extends React.Component<IProps, IState> {
                 <MainContent query={query} user={this.state.currentUser} />
               </Route>
               <Route path="/watchlist">
-                <WatchList user={currentUser} />
+                <MainContent query={query} user={this.state.currentUser} />
               </Route>
+              {/* <Route path="/watchlist">
+                <WatchList user={currentUser} />
+              </Route> */}
             </Switch>
           </ErrorBoundary>
         </div>

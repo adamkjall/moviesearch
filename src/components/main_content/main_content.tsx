@@ -9,6 +9,7 @@ import {
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
 
 import { fetchMovieFunction } from "../../utils/themoviedb-api";
+import { getWatchlist } from "../../firebase/firebase.utils";
 
 import { IMovie } from "../movie_details/movie_details";
 import { User } from "../../App";
@@ -47,6 +48,19 @@ const MainContent: FC<IProps> = ({ match, location, query = "", user }) => {
     setState(initialState);
     const category = match.path.replace("/", "");
 
+    const getMovieIds = async () => {
+      if (user) {
+        const movies = await getWatchlist(user.id);
+        setState(prev => ({ ...prev, movies }));
+      }
+    };
+
+    getMovieIds();
+    console.log(state);
+
+    if (category === "watchlist") return;
+
+    console.log("woop");
     fetchMovieFunction(category, 1).then(data => {
       const hasNext = data.page < data.total_pages;
       setState({

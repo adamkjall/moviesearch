@@ -15,7 +15,7 @@ import { User } from "../../App";
 
 interface IProps extends RouteComponentProps {
   id: number;
-  rating: string;
+  rating: number;
   poster: any;
   user: User | null;
 }
@@ -42,12 +42,18 @@ class Movie extends React.Component<IProps> {
   };
 
   handleAddToFavorites = () => {
-    const { user, id } = this.props;
+    const { user, id, rating, poster } = this.props;
+
+    const movie = {
+      id,
+      rating,
+      posterPath: poster
+    };
 
     if (user) {
-      addMovieToWatchlist(user.id, id)
+      addMovieToWatchlist(user.id, movie);
     }
-  }
+  };
 
   render() {
     const { history, match, id, rating, user } = this.props;
