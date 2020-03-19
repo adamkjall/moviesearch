@@ -20,7 +20,6 @@ import Sidebar from "./components/sidebar/sidebar";
 import MainContent from "./components/main_content/main_content";
 import Navbar from "./components/navbar/navbar";
 import ErrorBoundary from "./errorBoundary";
-import WatchList from "./components/watchlist/watchlist";
 
 const styles: CSSProperties = {
   display: "flex",
@@ -37,7 +36,6 @@ export type User = {
 interface IProps extends RouteComponentProps {}
 interface IState {
   currentUser: User | null;
-  query: string;
   showSidebar: boolean;
 }
 
@@ -46,7 +44,6 @@ class App extends React.Component<IProps, IState> {
 
   state = {
     currentUser: null,
-    query: "",
     showSidebar: true
   };
 
@@ -75,11 +72,6 @@ class App extends React.Component<IProps, IState> {
     });
   }
 
-  setSearchQuery = (query: string) => {
-    this.setState({ query: query + "~" + new Date() });
-    this.props.history.push(`${this.props.match.path}search/${query}`);
-  };
-
   componentWillUnmount() {
     if (this.unsubscribeFromAuth) {
       this.unsubscribeFromAuth();
@@ -88,7 +80,7 @@ class App extends React.Component<IProps, IState> {
   }
 
   handleResize = () => {
-    if (window.innerWidth < 768 && this.state.showSidebar) {
+    if (window.innerWidth <= 768 && this.state.showSidebar) {
       this.setState({ showSidebar: false });
     } else if (window.innerWidth > 768 && !this.state.showSidebar) {
       this.setState({ showSidebar: true });
@@ -99,12 +91,11 @@ class App extends React.Component<IProps, IState> {
     this.setState({ showSidebar: !this.state.showSidebar });
   };
   render() {
-    const { currentUser, query } = this.state;
+    const { currentUser } = this.state;
     return (
       <ErrorBoundary>
         <ErrorBoundary>
           <Header
-            setSearchQuery={this.setSearchQuery}
             toggleSidebar={this.toggleSidebar}
             hideLogo={this.state.showSidebar}
           />
@@ -132,24 +123,9 @@ class App extends React.Component<IProps, IState> {
               <Route exact path="/">
                 <Redirect from="/" to="trending" />
               </Route>
-              <Route path="/trending">
-                <MainContent query={query} user={this.state.currentUser} />
+              <Route path="/:category">
+                <MainContent user={this.state.currentUser} />
               </Route>
-              <Route path="/popular">
-                <MainContent query={query} user={this.state.currentUser} />
-              </Route>
-              <Route path="/new">
-                <MainContent query={query} user={this.state.currentUser} />
-              </Route>
-              <Route path="/search">
-                <MainContent query={query} user={this.state.currentUser} />
-              </Route>
-              <Route path="/watchlist">
-                <MainContent query={query} user={this.state.currentUser} />
-              </Route>
-              {/* <Route path="/watchlist">
-                <WatchList user={currentUser} />
-              </Route> */}
             </Switch>
           </ErrorBoundary>
         </div>

@@ -44,7 +44,7 @@ const SignUp = () => {
         state.password
       );
 
-      await createUserProfileDocument({...user, displayName: state.displayName});
+      await createUserProfileDocument(user, {displayName: state.displayName});
       
     } catch (error) {
       console.log("Error while sign up", error.message);

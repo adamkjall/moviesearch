@@ -1,16 +1,16 @@
 import React from "react";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import "./searchbar.styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-interface Props {
+interface Props extends RouteComponentProps {
   value: string;
-  setSearchQuery: (query: string) => void;
-  toggleLogo: (expanded: boolean) => void;
+  toggleLogo: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  expanded: boolean;
 }
 
 interface State {
-  expanded: boolean;
   value: string;
 }
 
@@ -18,17 +18,8 @@ class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      expanded: false,
       value: ""
     };
-    this.expandSearchBar = this.expandSearchBar.bind(this);
-  }
-
-  expandSearchBar() {
-    this.setState(state => ({
-      expanded: !state.expanded
-    }));
-    this.props.toggleLogo(this.state.expanded);
   }
 
   changeValue(event: React.ChangeEvent<HTMLInputElement>) {
@@ -37,7 +28,11 @@ class SearchBar extends React.Component<Props, State> {
 
   handleKeyPress(event: any) {
     if (event.which === 13) {
-      this.props.setSearchQuery(this.state.value);
+      // update url with the search query
+      this.props.history.push(
+        `${this.props.match.url}search/${this.state.value}`
+      );
+
       this.setState({ value: "" });
       event.target.value = "";
     }
@@ -46,7 +41,7 @@ class SearchBar extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        {this.state.expanded ? (
+        {this.props.expanded ? (
           <div className="field field-active">
             <input
               type="text"
@@ -66,11 +61,11 @@ class SearchBar extends React.Component<Props, State> {
           </div>
         )}
         <div className="searchButton">
-          <FontAwesomeIcon icon={faSearch} onClick={this.expandSearchBar} />
+          <FontAwesomeIcon icon={faSearch} onClick={this.props.toggleLogo} />
         </div>
       </div>
     );
   }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);

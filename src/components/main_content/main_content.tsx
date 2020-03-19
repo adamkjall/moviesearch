@@ -3,7 +3,8 @@ import {
   Switch,
   Route,
   withRouter,
-  RouteComponentProps
+  RouteComponentProps,
+  useParams
 } from "react-router-dom";
 
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
@@ -20,8 +21,7 @@ import MovieDetails from "../movie_details/movie_details";
 import "./main_content.styles.css";
 
 interface IProps extends RouteComponentProps {
-  query?: string;
-  user: User | null;
+  user?: User;
 }
 
 interface IState {
@@ -38,24 +38,24 @@ const initialState = {
   loading: false
 };
 
-const MainContent: FC<IProps> = ({ match, location, query = "", user }) => {
+const MainContent: FC<IProps> = ({ match, location, user }) => {
   const [state, setState] = useState<IState>(initialState);
+  const { category } = useParams();
 
-  // match.path : "trending" | "popular" | "new"
-  // om match.path ändras så kommer denna funktionen köras igen
-  // den synkar komponenten efter props, match.path i detta fallet
+  // category : "trending" | "popular" | "new" | "search"
+  // om category ändras så kommer denna funktionen köras igen
+  // den synkar komponenten efter props, category i detta fallet
   useEffect(() => {
     setState(initialState);
-    const category = match.path.replace("/", "");
 
-    const getMovieIds = async () => {
+    const getWatchlistMovies = async () => {
       if (user) {
         const movies = await getWatchlist(user.id);
         setState(prev => ({ ...prev, movies }));
       }
     };
 
-    getMovieIds();
+    getWatchlistMovies();
     console.log(state);
 
     if (category === "watchlist") return;
@@ -69,13 +69,14 @@ const MainContent: FC<IProps> = ({ match, location, query = "", user }) => {
         hasNextPage: hasNext
       });
     });
-  }, [match.path]);
+  }, [category, user]);
 
-  // denna effekten synkar komponenten efter query prop
+  // denna effekten synkar komponenten efter query,
   // om queryn ändras så körs denna funktionen
   useEffect(() => {
     const query = location.pathname.split("/").pop();
-    if (!query) return;
+
+    if (category !== "search" || !query) return;
 
     setState(initialState);
 
@@ -88,12 +89,12 @@ const MainContent: FC<IProps> = ({ match, location, query = "", user }) => {
         hasNextPage: hasNext
       }));
     });
-  }, [location.pathname]);
+  }, [location.pathname, category]);
 
   const loadMoreMovies = () => {
     setState(state => ({ ...state, loading: true }));
     const nextPage = state.page + 1;
-    const category = match.path.replace("/", "");
+    const query = location.pathname.split("/").pop();
 
     fetchMovieFunction(category, nextPage, query).then(data => {
       const hasNext = data.page < data.total_pages;
@@ -121,9 +122,9 @@ const MainContent: FC<IProps> = ({ match, location, query = "", user }) => {
       <Route path={match.path}>
         <div className="mainContentContainer">
           <div className="movie-list" ref={infiniteRef}>
-            {state.movies.map((movie: any) => (
+            {state.movies.map((movie: IMovie, index) => (
               <Movie
-                key={movie.id}
+                key={index}
                 id={movie.id}
                 rating={movie.vote_average}
                 poster={movie.poster_path}
