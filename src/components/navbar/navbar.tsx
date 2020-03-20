@@ -40,7 +40,9 @@ class Navbar extends React.Component<IProps> {
           {this.props.currentUser ? (
             <>
               <li>My collection</li>
-              <li>Watchlist</li>
+              <Link to="/watchlist">
+                <li>Watchlist</li>
+              </Link>
               <li>My reviews</li>
               <li>My account</li>
               <li>Settings</li>

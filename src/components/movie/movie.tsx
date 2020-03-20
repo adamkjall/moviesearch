@@ -1,18 +1,27 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
+import {
+  addMovieToWatchlist,
+  removeMovieFromWatchlist
+} from "../../firebase/firebase.utils";
+
 import "./movie.styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
+  faMinus,
   faCheck,
   faInfoCircle
 } from "@fortawesome/free-solid-svg-icons";
+
+import { User } from "../../App";
 
 interface IProps extends RouteComponentProps {
   id: number;
   rating: number;
   poster: any;
+  user: User | null;
 }
 
 class Movie extends React.Component<IProps> {
@@ -36,8 +45,40 @@ class Movie extends React.Component<IProps> {
     }
   };
 
+  addToFavorites = () => {
+    const { user, id, rating, poster } = this.props;
+
+    const movie = {
+      id,
+      rating,
+      poster_path: poster
+    };
+
+    if (user) {
+      addMovieToWatchlist(user.id, movie);
+    }
+  };
+
+  removeFromFavorites = () => {
+    const { user, id } = this.props;
+    if (user) {
+      removeMovieFromWatchlist(user.id, id);
+    }
+  };
+
+  handleFavorites = () => {
+    const category = this.props.match.path.replace("/", "");
+
+    if (category === "watchlist") {
+      this.removeFromFavorites();
+    } else {
+      this.addToFavorites();
+    }
+  };
+
   render() {
-    const { history, match, id, rating } = this.props;
+    const { history, match, id, rating, user } = this.props;
+    const category = this.props.match.path.replace("/", "");
     return (
       <div className="movie-card">
         {this.renderPosters()}
@@ -51,9 +92,18 @@ class Movie extends React.Component<IProps> {
             Seen it!
             <FontAwesomeIcon icon={faCheck} style={{ color: "#74FC88" }} />
           </button>
-          <button>
-            Add to watchlist
-            <FontAwesomeIcon icon={faPlus} style={{ color: "#FE7A67" }} />
+          <button onClick={this.handleFavorites}>
+            {category === "watchlist" ? (
+              <>
+                Remove from watchlist
+                <FontAwesomeIcon icon={faMinus} style={{ color: "#FE7A67" }} />
+              </>
+            ) : (
+              <>
+                Add to watchlist
+                <FontAwesomeIcon icon={faPlus} style={{ color: "#FE7A67" }} />
+              </>
+            )}
           </button>
         </div>
       </div>

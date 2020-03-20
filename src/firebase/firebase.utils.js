@@ -49,4 +49,42 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+export const addMovieToWatchlist = async (userId, movie) => {
+  firestore
+    .collection("users")
+    .doc(`${userId}`)
+    .collection("watchlist")
+    .doc(`${movie.id}`)
+    .set(movie)
+    .then(() => console.log(`MovieId: ${movie.id} added to watchlist.`))
+    .catch(error => console.log("Error adding movie to watchlist: ", error));
+};
+
+export const removeMovieFromWatchlist = async (userId, movieId) => {
+  firestore
+    .collection("users")
+    .doc(`${userId}`)
+    .collection("watchlist")
+    .doc(`${movieId}`)
+    .delete()
+    .then(() => console.log(`MovieId: ${movieId} delted from watchlist.`))
+    .catch(error =>
+      console.log("Error deleting movie from watchlist: ", error)
+    );
+};
+
+export const getWatchlist = async userId => {
+  const watchlist = [];
+
+  const snapshot = await firestore
+    .collection("users")
+    .doc(`${userId}`)
+    .collection("watchlist")
+    .get();
+
+  snapshot.forEach(doc => watchlist.push(doc.data()));
+
+  return watchlist;
+};
+
 export default firebase;

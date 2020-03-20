@@ -1,0 +1,41 @@
+.watchlist-container {
+  .mainContentContainer {
+    min-height: 100%;
+    width: 100%;
+
+    overflow: auto;
+  }
+
+  .watchlist {
+    padding: 1rem 1rem;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media screen and (min-width: 1500px) {
+    .watchlist {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 1250px) {
+    .watchlist {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .watchlist {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /*Mobil eller mindre plattor*/
+
+  @media screen and (max-width: 768px) {
+    .watchlist {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
