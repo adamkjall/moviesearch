@@ -7,9 +7,10 @@ export const fetchTrendingMovies = async (page = 1) => {
       `${baseUrl}trending/movie/day?api_key=${process.env.REACT_APP_API}&language=en-US&page=${page}`
     );
     const data = await response.json();
+    if (data && data.status_code) throw data;
     return data;
   } catch (error) {
-    console.log(error);
+    console.log("Error", error);
   }
 };
 
@@ -19,9 +20,10 @@ export const fetchPopularMovies = async (page = 1) => {
       `${baseUrl}discover/movie?api_key=${process.env.REACT_APP_API}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
     );
     const data = await response.json();
+    if (data && data.status_code) throw data;
     return data;
   } catch (error) {
-    console.log(error);
+    console.log("Error", error);
   }
 };
 
@@ -31,9 +33,10 @@ export const fetchNewMovies = async (page = 1) => {
       `${baseUrl}discover/movie?api_key=${process.env.REACT_APP_API}&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=${page}&release_date.lte=2020-03-08&vote_count.gte=20&vote_average.gte=4&with_runtime.gte=60`
     );
     const data = await response.json();
+    if (data && data.status_code) throw data;
     return data;
   } catch (error) {
-    console.log(error);
+    console.log("Error", error);
   }
 };
 
@@ -43,41 +46,49 @@ export const searchMovie = async (query = "", page = 1) => {
       `${baseUrl}search/movie?api_key=${process.env.REACT_APP_API}&query=${query}&page=${page}`
     );
     const data = await response.json();
+    if (data && data.status_code) throw data;
     return data;
   } catch (error) {
-    console.log(error);
+    console.log("Error", error);
   }
 };
 
-export const getMovieDetails = async movieId => {
-  const response = await fetch(
-    `${baseUrl}movie/${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US&append_to_response=videos,reviews`
-  );
-  const data = response.json();
-  return data;
+export const getMovieDetails = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}movie/${movieId}?api_key=${process.env.REACT_APP_API}&language=en-US&append_to_response=videos,reviews`
+    );
+    const data = await response.json();
+    if (data && data.status_code) throw data;
+    return data;
+  } catch (error) {
+    console.log("Error", error);
+  }
 };
 
-export const getCast = async movieId => {
+export const getCast = async (movieId) => {
   try {
     const response = await fetch(
       `${baseUrl}movie/${movieId}/credits?api_key=${process.env.REACT_APP_API}`
     );
     const data = await response.json();
+    if (data && data.status_code) throw data;
     return data.cast;
   } catch (error) {
-    console.log(error);
+    console.log("Error", error);
   }
 };
 
-export const getVideos = async movieId => {
+export const getVideos = async (movieId) => {
   try {
     const response = await fetch(
       `${baseUrl}movie/${movieId}/videos?api_key=${process.env.REACT_APP_API}&language=en-US`
     );
     const data = await response.json();
+    if (data && data.status_code) throw data;
     return data.results;
   } catch (error) {
-    console.log(error);
+    console.log("Error", error);
   }
 };
 

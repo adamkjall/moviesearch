@@ -4,7 +4,7 @@ import {
   Route,
   withRouter,
   RouteComponentProps,
-  useParams
+  useParams,
 } from "react-router-dom";
 
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
@@ -34,7 +34,7 @@ const initialState = {
   movies: [],
   page: 1,
   hasNextPage: false,
-  loading: false
+  loading: false,
 };
 
 const MainContent: FC<IProps> = ({ match, location, user }) => {
@@ -47,12 +47,14 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
   useEffect(() => {
     setState(initialState);
 
-    fetchMovieFunction(category, 1).then(data => {
+    fetchMovieFunction(category, 1).then((data) => {
+      if (!data) return;
+
       const hasNext = data.page < data.total_pages;
       setState({
         ...initialState,
         movies: data.results,
-        hasNextPage: hasNext
+        hasNextPage: hasNext,
       });
     });
   }, [category, user]);
@@ -66,30 +68,30 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
 
     setState(initialState);
 
-    fetchMovieFunction("search", 1, query).then(data => {
+    fetchMovieFunction("search", 1, query).then((data) => {
       const hasNext = data.page < data.total_pages;
-      setState(state => ({
+      setState((state) => ({
         ...state,
         movies: data.results,
         page: data.page,
-        hasNextPage: hasNext
+        hasNextPage: hasNext,
       }));
     });
   }, [location.pathname, category]);
 
   const loadMoreMovies = () => {
-    setState(state => ({ ...state, loading: true }));
+    setState((state) => ({ ...state, loading: true }));
     const nextPage = state.page + 1;
     const query = location.pathname.split("/").pop();
 
-    fetchMovieFunction(category, nextPage, query).then(data => {
+    fetchMovieFunction(category, nextPage, query).then((data) => {
       const hasNext = data.page < data.total_pages;
-      setState(state => ({
+      setState((state) => ({
         ...state,
         movies: state.movies.concat(data.results),
         page: data.page,
         loading: false,
-        hasNextPage: hasNext
+        hasNextPage: hasNext,
       }));
     });
   };
@@ -97,7 +99,7 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
   const infiniteRef = useInfiniteScroll<HTMLDivElement>({
     loading: state.loading,
     hasNextPage: state.hasNextPage,
-    onLoadMore: loadMoreMovies
+    onLoadMore: loadMoreMovies,
   });
 
   return (
