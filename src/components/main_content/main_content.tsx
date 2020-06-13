@@ -57,7 +57,7 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
         hasNextPage: hasNext,
       });
     });
-  }, [category, user]);
+  }, [category]);
 
   // denna effekten synkar komponenten efter query,
   // om queryn ändras så körs denna funktionen
@@ -69,6 +69,8 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
     setState(initialState);
 
     fetchMovieFunction("search", 1, query).then((data) => {
+      if (!data) return;
+
       const hasNext = data.page < data.total_pages;
       setState((state) => ({
         ...state,
@@ -85,6 +87,8 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
     const query = location.pathname.split("/").pop();
 
     fetchMovieFunction(category, nextPage, query).then((data) => {
+      if (!data) return;
+
       const hasNext = data.page < data.total_pages;
       setState((state) => ({
         ...state,
@@ -119,7 +123,7 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
                 user={user}
               />
             ))}
-            {state.loading && <h3>Loading more movies...</h3>}
+            {state.loading && <h3>Loading movies...</h3>}
           </div>
         </div>
       </Route>
