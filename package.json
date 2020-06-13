@@ -21,6 +21,7 @@
     "react-dom": "^16.13.0",
     "react-iframe": "^1.8.0",
     "react-infinite-scroll-hook": "^2.0.1",
+    "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-spring": "^8.0.27",
