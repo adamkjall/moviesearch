@@ -1,14 +1,13 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Switch,
   Route,
-  withRouter,
-  RouteComponentProps,
   useParams,
+  useLocation,
+  useRouteMatch,
 } from "react-router-dom";
 
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
-
 import { fetchMovieFunction } from "../../utils/themoviedb-api";
 
 import { IMovie } from "../movie_details/movie_details";
@@ -16,14 +15,15 @@ import { User } from "../../App";
 
 import Movie from "../movie/movie";
 import MovieDetails from "../movie_details/movie_details";
+import Modal from "../modal";
 
 import "./main_content.styles.css";
 
-interface IProps extends RouteComponentProps {
+interface Props {
   user: User | null;
 }
 
-interface IState {
+interface State {
   movies: IMovie[];
   page: number;
   hasNextPage: boolean;
@@ -37,9 +37,11 @@ const initialState = {
   loading: false,
 };
 
-const MainContent: FC<IProps> = ({ match, location, user }) => {
-  const [state, setState] = useState<IState>(initialState);
+const MainContent = ({ user }: Props) => {
+  const [state, setState] = useState<State>(initialState);
   const { category } = useParams();
+  const match = useRouteMatch();
+  const location = useLocation();
 
   // category : "trending" | "popular" | "new" | "search"
   // om category ändras så kommer denna funktionen köras igen
@@ -109,7 +111,10 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
   return (
     <Switch>
       <Route path={`${match.path}/movie/:movieId`}>
-        <MovieDetails />
+        <Modal open={true}>
+          <MovieDetails />
+        </Modal>
+        {/* <MovieDetails /> */}
       </Route>
       <Route path={match.path}>
         <div className="mainContentContainer">
@@ -131,4 +136,4 @@ const MainContent: FC<IProps> = ({ match, location, user }) => {
   );
 };
 
-export default withRouter(MainContent);
+export default MainContent;

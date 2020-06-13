@@ -4,12 +4,12 @@ import {
   Route,
   Redirect,
   withRouter,
-  RouteComponentProps
+  RouteComponentProps,
 } from "react-router-dom";
 
 import Firebase, {
   auth,
-  createUserProfileDocument
+  createUserProfileDocument,
 } from "./firebase/firebase.utils";
 
 // components
@@ -24,7 +24,7 @@ import WatchList from "./components/watchlist/watchlist";
 
 const styles: CSSProperties = {
   display: "flex",
-  height: "calc(100vh - 80px)"
+  height: "calc(100vh - 80px)",
 };
 
 export type User = {
@@ -45,25 +45,25 @@ class App extends React.Component<IProps, IState> {
 
   state = {
     currentUser: null,
-    showSidebar: true
+    showSidebar: true,
   };
 
   componentDidMount() {
     this.handleResize();
     window.addEventListener("resize", this.handleResize);
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         if (userRef) {
-          userRef.onSnapshot(snapshot => {
+          userRef.onSnapshot((snapshot) => {
             const { displayName, email, createdAt } = snapshot.data() as User;
             this.setState({
               currentUser: {
                 id: snapshot.id,
                 displayName,
                 email,
-                createdAt
-              }
+                createdAt,
+              },
             });
           });
         }
@@ -91,6 +91,7 @@ class App extends React.Component<IProps, IState> {
   toggleSidebar = () => {
     this.setState({ showSidebar: !this.state.showSidebar });
   };
+
   render() {
     const { currentUser } = this.state;
     return (
