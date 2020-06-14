@@ -1,23 +1,19 @@
-import React from "react";
-import "./sidebar.styles.css";
-import { Spring, config } from "react-spring/renderprops";
+import React, { ReactElement } from "react";
 
-class Sidebar extends React.Component {
-  render() {
-    return (
-        <Spring
-          config={config.stiff}
-          from={{ opacity: 0, width: "20px" }}
-          to={{ opacity: 1, width: "250px" }}
-        >
-          {(props) => (
-            <div style={props} className="sidebarContainer">
-              {this.props.children}
-            </div>
-          )}
-        </Spring>
-    );
-  }
+import "./sidebar.styles.scss";
+
+interface Props {
+  toggleSidebar: () => void;
+  children: ReactElement;
 }
+
+const Sidebar = ({ children, toggleSidebar }: Props) => {
+  return (
+    <div className="sidebarContainer">
+      <header onClick={toggleSidebar}>X</header>
+      {children}
+    </div>
+  );
+};
 
 export default Sidebar;

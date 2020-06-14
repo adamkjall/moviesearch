@@ -48,8 +48,6 @@ const MainContent = ({ user }: Props) => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("query") || "";
 
-    console.log("query", query);
-
     fetchMovieFunction(category, 1, query).then((data) => {
       if (!data) return;
 

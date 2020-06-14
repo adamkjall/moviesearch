@@ -79,9 +79,9 @@ const App: FC = () => {
   }, []);
 
   const handleResize = () => {
-    if (window.innerWidth <= 768 && showSidebar) {
+    if (window.innerWidth <= 768) {
       setShowSidebar(false);
-    } else if (window.innerWidth > 768 && !showSidebar) {
+    } else if (window.innerWidth > 768) {
       setShowSidebar(true);
     }
   };
@@ -89,7 +89,7 @@ const App: FC = () => {
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
-  console.log("location state", locationState);
+  console.log("showSidebar", showSidebar);
 
   return (
     <ErrorBoundary>
@@ -99,7 +99,7 @@ const App: FC = () => {
       <div style={styles}>
         {showSidebar ? (
           <ErrorBoundary>
-            <Sidebar>
+            <Sidebar toggleSidebar={toggleSidebar}>
               <Navbar currentUser={currentUser} />
             </Sidebar>
           </ErrorBoundary>
