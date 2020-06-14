@@ -10,8 +10,8 @@ interface Props {
 
 const modalRoot = document.getElementById("modal-root");
 
-const Modal: FC<Props> = ({ children, onClose, open }) => {
-  if (modalRoot && open)
+const Modal: FC<Props> = ({ children, onClose }) => {
+  if (modalRoot)
     return createPortal(<StyledModal>{children}</StyledModal>, modalRoot);
   return <div></div>;
 };

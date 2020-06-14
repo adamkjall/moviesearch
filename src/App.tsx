@@ -1,11 +1,5 @@
-import React, { CSSProperties } from "react";
-import {
-  Switch,
-  Route,
-  Redirect,
-  withRouter,
-  RouteComponentProps,
-} from "react-router-dom";
+import React, { useState, useEffect, CSSProperties, FC } from "react";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
 import Firebase, {
   auth,
@@ -21,6 +15,8 @@ import MainContent from "./components/main_content/main_content";
 import Navbar from "./components/navbar/navbar";
 import ErrorBoundary from "./errorBoundary";
 import WatchList from "./components/watchlist/watchlist";
+import Modal from "./components/modal";
+import MovieDetails from "./components/movie_details/movie_details";
 
 const styles: CSSProperties = {
   display: "flex",
@@ -34,109 +30,111 @@ export type User = {
   createdAt: Date;
 };
 
-interface IProps extends RouteComponentProps {}
-interface IState {
-  currentUser: User | null;
-  showSidebar: boolean;
-}
+const App: FC = () => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const location = useLocation();
 
-class App extends React.Component<IProps, IState> {
-  private unsubscribeFromAuth: Firebase.Unsubscribe | null = null;
+  // This piece of state is set when one of the
+  // gallery links is clicked. The `background` state
+  // is the location that we were at when one of
+  // the gallery links was clicked. If it's there,
+  // use it as the location for the <Switch> so
+  // we show the gallery in the background, behind
+  // the modal.
+  let locationState = location.state as any;
 
-  state = {
-    currentUser: null,
-    showSidebar: true,
-  };
-
-  componentDidMount() {
-    this.handleResize();
-    window.addEventListener("resize", this.handleResize);
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+  useEffect(() => {
+    const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         if (userRef) {
           userRef.onSnapshot((snapshot) => {
             const { displayName, email, createdAt } = snapshot.data() as User;
-            this.setState({
-              currentUser: {
-                id: snapshot.id,
-                displayName,
-                email,
-                createdAt,
-              },
+            setCurrentUser({
+              id: snapshot.id,
+              displayName,
+              email,
+              createdAt,
             });
           });
         }
       } else {
-        this.setState({ currentUser: userAuth });
+        setCurrentUser(null);
       }
     });
-  }
 
-  componentWillUnmount() {
-    if (this.unsubscribeFromAuth) {
-      this.unsubscribeFromAuth();
-    }
-    window.removeEventListener("resize", this.handleResize);
-  }
+    return () => {
+      unsubscribeFromAuth();
+    };
+  }, []);
 
-  handleResize = () => {
-    if (window.innerWidth <= 768 && this.state.showSidebar) {
-      this.setState({ showSidebar: false });
-    } else if (window.innerWidth > 768 && !this.state.showSidebar) {
-      this.setState({ showSidebar: true });
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleResize = () => {
+    if (window.innerWidth <= 768 && showSidebar) {
+      setShowSidebar(false);
+    } else if (window.innerWidth > 768 && !showSidebar) {
+      setShowSidebar(true);
     }
   };
 
-  toggleSidebar = () => {
-    this.setState({ showSidebar: !this.state.showSidebar });
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
   };
+  console.log("location state", locationState);
 
-  render() {
-    const { currentUser } = this.state;
-    return (
+  return (
+    <ErrorBoundary>
       <ErrorBoundary>
-        <ErrorBoundary>
-          <Header
-            toggleSidebar={this.toggleSidebar}
-            hideLogo={this.state.showSidebar}
-          />
-        </ErrorBoundary>
-        <div style={styles}>
-          {this.state.showSidebar ? (
-            <ErrorBoundary>
-              <Sidebar>
-                <Navbar currentUser={currentUser} />
-              </Sidebar>
-            </ErrorBoundary>
-          ) : null}
-          <ErrorBoundary>
-            <Switch>
-              <Route
-                exact
-                path="/signin"
-                render={() => (currentUser ? <Redirect to="/" /> : <SignIn />)}
-              />
-              <Route
-                exact
-                path="/register"
-                render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
-              />
-              <Route exact path="/">
-                <Redirect from="/" to="trending" />
-              </Route>
-              <Route path="/watchlist">
-                <WatchList user={this.state.currentUser} />
-              </Route>
-              <Route path="/:category">
-                <MainContent user={this.state.currentUser} />
-              </Route>
-            </Switch>
-          </ErrorBoundary>
-        </div>
+        <Header toggleSidebar={toggleSidebar} hideLogo={showSidebar} />
       </ErrorBoundary>
-    );
-  }
-}
+      <div style={styles}>
+        {showSidebar ? (
+          <ErrorBoundary>
+            <Sidebar>
+              <Navbar currentUser={currentUser} />
+            </Sidebar>
+          </ErrorBoundary>
+        ) : null}
+        <ErrorBoundary>
+          <Switch>
+            <Route
+              exact
+              path="/signin"
+              render={() => (currentUser ? <Redirect to="/" /> : <SignIn />)}
+            />
+            <Route
+              exact
+              path="/register"
+              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
+            />
+            <Route exact path="/">
+              <Redirect from="/" to="trending" />
+            </Route>
+            <Route path="/watchlist">
+              <WatchList user={currentUser} />
+            </Route>
+            <Route path="/:category">
+              <MainContent user={currentUser} />
+            </Route>
+          </Switch>
+          {locationState && locationState.background && (
+            <Modal>
+              <MovieDetails />
+            </Modal>
+          )}
+        </ErrorBoundary>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
-export default withRouter(App);
+export default App;

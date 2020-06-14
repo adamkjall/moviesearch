@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import {
   addMovieToWatchlist,
-  removeMovieFromWatchlist
+  removeMovieFromWatchlist,
 } from "../../firebase/firebase.utils";
 
 import "./movie.styles.css";
@@ -12,7 +12,7 @@ import {
   faPlus,
   faMinus,
   faCheck,
-  faInfoCircle
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { User } from "../../App";
@@ -51,7 +51,7 @@ class Movie extends React.Component<IProps> {
     const movie = {
       id,
       rating,
-      poster_path: poster
+      poster_path: poster,
     };
 
     if (user) {
@@ -77,14 +77,23 @@ class Movie extends React.Component<IProps> {
   };
 
   render() {
-    const { history, match, id, rating, user } = this.props;
+    const { history, location, id, rating } = this.props;
+
     const category = this.props.match.path.replace("/", "");
     return (
       <div className="movie-card">
         {this.renderPosters()}
         <p>{rating}</p>
         <div className="card-overlay">
-          <button onClick={() => history.push(`${match.url}/movie/${id}`)}>
+          <button
+            onClick={() =>
+              history.push({
+                pathname: `${location.pathname}/movie/${id}`,
+                search: location.search,
+                state: { background: this.props.location },
+              })
+            }
+          >
             View Details
             <FontAwesomeIcon icon={faInfoCircle} style={{ color: "#4EA8FC" }} />
           </button>

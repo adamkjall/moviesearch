@@ -40,16 +40,17 @@ const initialState = {
 const MainContent = ({ user }: Props) => {
   const [state, setState] = useState<State>(initialState);
   const { category } = useParams();
-  const match = useRouteMatch();
   const location = useLocation();
 
-  // category : "trending" | "popular" | "new" | "search"
-  // om category ändras så kommer denna funktionen köras igen
-  // den synkar komponenten efter props, category i detta fallet
   useEffect(() => {
     setState(initialState);
 
-    fetchMovieFunction(category, 1).then((data) => {
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get("query") || "";
+
+    console.log("query", query);
+
+    fetchMovieFunction(category, 1, query).then((data) => {
       if (!data) return;
 
       const hasNext = data.page < data.total_pages;
@@ -59,29 +60,7 @@ const MainContent = ({ user }: Props) => {
         hasNextPage: hasNext,
       });
     });
-  }, [category]);
-
-  // denna effekten synkar komponenten efter query,
-  // om queryn ändras så körs denna funktionen
-  useEffect(() => {
-    const query = location.pathname.split("/").pop();
-
-    if (category !== "search" || !query) return;
-
-    setState(initialState);
-
-    fetchMovieFunction("search", 1, query).then((data) => {
-      if (!data) return;
-
-      const hasNext = data.page < data.total_pages;
-      setState((state) => ({
-        ...state,
-        movies: data.results,
-        page: data.page,
-        hasNextPage: hasNext,
-      }));
-    });
-  }, [location.pathname, category]);
+  }, [category, location.search]);
 
   const loadMoreMovies = () => {
     setState((state) => ({ ...state, loading: true }));
@@ -109,30 +88,20 @@ const MainContent = ({ user }: Props) => {
   });
 
   return (
-    <Switch>
-      <Route path={`${match.path}/movie/:movieId`}>
-        <Modal open={true}>
-          <MovieDetails />
-        </Modal>
-        {/* <MovieDetails /> */}
-      </Route>
-      <Route path={match.path}>
-        <div className="mainContentContainer">
-          <div className="movie-list" ref={infiniteRef}>
-            {state.movies.map((movie: IMovie, index) => (
-              <Movie
-                key={index}
-                id={movie.id}
-                rating={movie.vote_average}
-                poster={movie.poster_path}
-                user={user}
-              />
-            ))}
-            {state.loading && <h3>Loading movies...</h3>}
-          </div>
-        </div>
-      </Route>
-    </Switch>
+    <div className="mainContentContainer">
+      <div className="movie-list" ref={infiniteRef}>
+        {state.movies.map((movie: IMovie, index) => (
+          <Movie
+            key={index}
+            id={movie.id}
+            rating={movie.vote_average}
+            poster={movie.poster_path}
+            user={user}
+          />
+        ))}
+        {state.loading && <h3>Loading movies...</h3>}
+      </div>
+    </div>
   );
 };
 

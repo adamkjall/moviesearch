@@ -7,7 +7,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import {
   getMovieDetails,
   getCast,
-  baseImgUrl
+  baseImgUrl,
 } from "../../utils/themoviedb-api";
 
 import CastList from "../cast_list/cast_list";
@@ -59,18 +59,18 @@ const MovieDetails: FC<IProps> = ({ history }) => {
   const [state, setState] = useState<IState>({
     movieId: undefined,
     movie: undefined,
-    cast: []
+    cast: [],
   });
 
   useEffect(() => {
     const movieId = history.location.pathname.split("/").pop();
-    setState(state => ({
+    setState((state) => ({
       ...state,
-      movieId
+      movieId,
     }));
 
     getMovieDetails(movieId)
-      .then(movieDetails => ({
+      .then((movieDetails) => ({
         ...movieDetails,
         year: movieDetails.release_date.split("-")[0],
         genres: movieDetails.genres.map(
@@ -78,20 +78,20 @@ const MovieDetails: FC<IProps> = ({ history }) => {
         ),
         trailers: movieDetails.videos.results.filter(
           (video: IVideo) => video.type === "Trailer"
-        )
+        ),
       }))
-      .then((movie: IMovie) => setState(state => ({ ...state, movie })))
+      .then((movie: IMovie) => setState((state) => ({ ...state, movie })))
       .catch(console.log);
 
     getCast(movieId)
-      .then(cast =>
+      .then((cast) =>
         cast.map((person: ICastMember) => ({
           name: person.name,
           character: person.character,
-          profile_path: person.profile_path
+          profile_path: person.profile_path,
         }))
       )
-      .then(cast => setState(state => ({ ...state, cast })))
+      .then((cast) => setState((state) => ({ ...state, cast })))
       .catch(console.log);
   }, [history.location.pathname]);
 
@@ -101,7 +101,7 @@ const MovieDetails: FC<IProps> = ({ history }) => {
     <section
       className="movie-details"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${baseImgUrl}${state.movie.backdrop_path})`
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${baseImgUrl}${state.movie.backdrop_path})`,
       }}
     >
       <header className="header">

@@ -18,7 +18,7 @@ class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      value: ""
+      value: "",
     };
   }
 
@@ -29,9 +29,10 @@ class SearchBar extends React.Component<Props, State> {
   handleKeyPress(event: any) {
     if (event.which === 13) {
       // update url with the search query
-      this.props.history.push(
-        `${this.props.match.url}search/${this.state.value}`
-      );
+      this.props.history.push({
+        pathname: `${this.props.match.url}search`,
+        search: "?query=" + this.state.value,
+      });
 
       this.setState({ value: "" });
       event.target.value = "";

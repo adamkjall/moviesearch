@@ -41,7 +41,7 @@
   transition: opacity 300ms ease-out;
 }
 
-.movie-card button {
+.movie-card a {
   width: 70%;
   height: 14%;
   background-color: rgba(0, 0, 0, 0.267);
@@ -54,11 +54,11 @@
   align-items: center;
 }
 
-.movie-card button:hover {
+.movie-card a:hover {
   background-color: #2f3a46;
   cursor: pointer;
 }
 
-.movie-card button:focus {
+.movie-card a:focus {
   outline: none;
 }
