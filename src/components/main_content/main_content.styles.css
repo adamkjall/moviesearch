@@ -13,24 +13,24 @@
   padding: 1rem 1rem;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
 
 @media screen and (min-width: 1500px) {
   .movie-list {
-    grid-template-columns: repeat(6, 1fr);
+    /* grid-template-columns: repeat(6, 1fr); */
   }
 }
 
 @media screen and (max-width: 1250px) {
   .movie-list {
-    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-columns: repeat(4, 1fr); */
   }
 }
 
 @media screen and (max-width: 1000px) {
   .movie-list {
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
   }
 }
 
@@ -38,6 +38,6 @@
 
 @media screen and (max-width: 768px) {
   .movie-list {
-    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-columns: repeat(2, 1fr); */
   }
 }

@@ -30,7 +30,7 @@ export type User = {
   createdAt: Date;
 };
 
-const App: FC = () => {
+const App = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const location = useLocation();
@@ -89,7 +89,6 @@ const App: FC = () => {
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
-  console.log("showSidebar", showSidebar);
 
   return (
     <ErrorBoundary>

@@ -1,8 +1,6 @@
 .movie-details {
   height: 100%;
   width: 100%;
-  max-width: 900px;
-  max-height: 80%;
   color: rgba(255, 255, 255, 0.932);
   background-color: #333;
   background-repeat: no-repeat;
@@ -10,7 +8,6 @@
   background-position: center;
   padding: 2.5rem;
   overflow: auto;
-
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
@@ -20,6 +17,16 @@
     ".        .        ."
     "trailers trailers trailers";
   gap: 1.5rem;
+  animation: scaleUp 0.5s ease-out forwards;
+
+  @keyframes scaleUp {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transfrom: scale(1);
+    }
+  }
 
   &::-webkit-scrollbar {
     display: none;

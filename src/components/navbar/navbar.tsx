@@ -28,23 +28,22 @@ class Navbar extends React.Component<IProps> {
       <nav>
         <ul>
           <Link to="/trending">
-            <li>Trending movies</li>
+            <li>Trending</li>
           </Link>
           <Link to="/popular">
-            <li>Popular movies</li>
+            <li>Popular</li>
           </Link>
           <Link to="/new">
-            <li>New movies</li>
+            <li>New</li>
           </Link>
           <hr></hr>
           {this.props.currentUser ? (
             <>
-              <li>My collection</li>
               <Link to="/watchlist">
                 <li>Watchlist</li>
               </Link>
-              <li>My reviews</li>
-              <li>My account</li>
+              <li>Reviews</li>
+              <li>Account</li>
               <li>Settings</li>
               <li onClick={() => auth.signOut()}>Log out</li>
             </>
