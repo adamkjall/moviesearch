@@ -5,6 +5,12 @@
   /* min-height: 17rem; */
   position: relative;
   border: 1px solid black;
+  filter: brightness(85%);
+  transition: filter 0.2s ease;
+}
+
+.movie-card:hover {
+  filter: brightness(110%);
 }
 
 .movie-card img {

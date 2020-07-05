@@ -81,11 +81,20 @@ class Movie extends React.Component<IProps> {
 
     const category = this.props.match.path.replace("/", "");
     return (
-      <div className="movie-card">
+      <div
+        className="movie-card"
+        onClick={() =>
+          history.push({
+            pathname: `${location.pathname}/movie/${id}`,
+            search: location.search,
+            state: { background: this.props.location },
+          })
+        }
+      >
         {this.renderPosters()}
         <p>{rating}</p>
-        <div className="card-overlay">
-          <button
+        {/* <div className="card-overlay"> */}
+        {/* <button
             onClick={() =>
               history.push({
                 pathname: `${location.pathname}/movie/${id}`,
@@ -96,8 +105,8 @@ class Movie extends React.Component<IProps> {
           >
             View Details
             <FontAwesomeIcon icon={faInfoCircle} style={{ color: "#4EA8FC" }} />
-          </button>
-          <button>
+          </button> */}
+        {/* <button>
             Seen it!
             <FontAwesomeIcon icon={faCheck} style={{ color: "#74FC88" }} />
           </button>
@@ -113,8 +122,8 @@ class Movie extends React.Component<IProps> {
                 <FontAwesomeIcon icon={faPlus} style={{ color: "#FE7A67" }} />
               </>
             )}
-          </button>
-        </div>
+          </button> */}
+        {/* </div> */}
       </div>
     );
   }
