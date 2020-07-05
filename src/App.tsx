@@ -1,19 +1,16 @@
 import React, { useState, useEffect, CSSProperties, FC } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
-import Firebase, {
-  auth,
-  createUserProfileDocument,
-} from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 // components
 import SignIn from "./components/sign_in/sign_in";
 import SignUp from "./components/sign_up/sign_up";
-import Header from "./containers/header/header";
+import Header from "./components/header/header";
 import Sidebar from "./components/sidebar/sidebar";
 import MainContent from "./components/main_content/main_content";
 import Navbar from "./components/navbar/navbar";
-import ErrorBoundary from "./errorBoundary";
+import ErrorBoundary from "./components/errorBoundary";
 import WatchList from "./components/watchlist/watchlist";
 import Modal from "./components/modal";
 import MovieDetails from "./components/movie_details/movie_details";
@@ -93,7 +90,7 @@ const App = () => {
   return (
     <ErrorBoundary>
       <ErrorBoundary>
-        <Header toggleSidebar={toggleSidebar} hideLogo={showSidebar} />
+        <Header toggleSidebar={toggleSidebar} />
       </ErrorBoundary>
       <div style={styles}>
         {showSidebar ? (

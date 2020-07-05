@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Switch,
-  Route,
-  useParams,
-  useLocation,
-  useRouteMatch,
-} from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
 import { fetchMovieFunction } from "../../utils/themoviedb-api";
@@ -14,8 +8,6 @@ import { IMovie } from "../movie_details/movie_details";
 import { User } from "../../App";
 
 import Movie from "../movie/movie";
-import MovieDetails from "../movie_details/movie_details";
-import Modal from "../modal";
 
 import "./main_content.styles.css";
 

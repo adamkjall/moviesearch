@@ -7,7 +7,7 @@ import Movie from "../movie/movie";
 import { User } from "../../App";
 
 import "./watchlist.styles.scss";
-interface IProps {
+interface Props {
   user: User | null;
 }
 
@@ -17,7 +17,7 @@ type IMovie = {
   poster_path: string;
 };
 
-const WatchList: FC<IProps> = ({ user }) => {
+const WatchList = ({ user }: Props) => {
   const [movies, setMovies] = useState<IMovie[]>([]);
 
   useEffect(() => {
@@ -26,9 +26,9 @@ const WatchList: FC<IProps> = ({ user }) => {
         .collection("users")
         .doc(`${user.id}`)
         .collection("watchlist")
-        .onSnapshot(snapshot => {
+        .onSnapshot((snapshot) => {
           const watchlist: IMovie[] = [];
-          snapshot.forEach(doc => {
+          snapshot.forEach((doc) => {
             const movie = doc.data() as IMovie;
             watchlist.push(movie);
           });
@@ -42,7 +42,7 @@ const WatchList: FC<IProps> = ({ user }) => {
   return (
     <div className="watchlist-container">
       <div className="watchlist">
-        {movies.map(movie => (
+        {movies.map((movie) => (
           <Movie
             key={movie.id}
             user={user}
