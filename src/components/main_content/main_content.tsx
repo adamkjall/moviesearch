@@ -63,7 +63,8 @@ const MainContent = ({ user }: Props) => {
   const loadMoreMovies = () => {
     setState((state) => ({ ...state, loading: true }));
     const nextPage = state.page + 1;
-    const query = location.pathname.split("/").pop();
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get("query") || "";
 
     fetchMovieFunction(category, nextPage, query).then((data) => {
       if (!data) return;
