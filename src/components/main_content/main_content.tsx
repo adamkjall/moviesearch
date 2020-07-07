@@ -5,15 +5,10 @@ import { useInfiniteScroll } from "react-infinite-scroll-hook";
 import { fetchMovieFunction } from "../../utils/themoviedb-api";
 
 import { IMovie } from "../movie_details/movie_details";
-import { User } from "../../App";
 
 import Movie from "../movie/movie";
 
 import "./main_content.styles.css";
-
-interface Props {
-  user: User | null;
-}
 
 interface State {
   movies: IMovie[];
@@ -29,7 +24,7 @@ const initialState = {
   loading: false,
 };
 
-const MainContent = ({ user }: Props) => {
+const MainContent = () => {
   const [state, setState] = useState<State>(initialState);
   const { category } = useParams();
   const location = useLocation();
@@ -87,7 +82,6 @@ const MainContent = ({ user }: Props) => {
             id={movie.id}
             rating={movie.vote_average}
             poster={movie.poster_path}
-            user={user}
           />
         ))}
         {state.loading && <h3>Loading movies...</h3>}

@@ -10,7 +10,7 @@ const config = {
   projectId: "movie-search-be331",
   storageBucket: "movie-search-be331.appspot.com",
   messagingSenderId: "752000773184",
-  appId: "1:752000773184:web:55210571f35a4a90f4c3a5"
+  appId: "1:752000773184:web:55210571f35a4a90f4c3a5",
 };
 
 firebase.initializeApp(config);
@@ -39,7 +39,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         displayName,
         email,
         createdAt,
-        ...additionalData
+        ...additionalData,
       });
     } catch (error) {
       console.log("Error creating user", error.message);
@@ -57,7 +57,7 @@ export const addMovieToWatchlist = async (userId, movie) => {
     .doc(`${movie.id}`)
     .set(movie)
     .then(() => console.log(`MovieId: ${movie.id} added to watchlist.`))
-    .catch(error => console.log("Error adding movie to watchlist: ", error));
+    .catch((error) => console.log("Error adding movie to watchlist: ", error));
 };
 
 export const removeMovieFromWatchlist = async (userId, movieId) => {
@@ -68,12 +68,12 @@ export const removeMovieFromWatchlist = async (userId, movieId) => {
     .doc(`${movieId}`)
     .delete()
     .then(() => console.log(`MovieId: ${movieId} delted from watchlist.`))
-    .catch(error =>
+    .catch((error) =>
       console.log("Error deleting movie from watchlist: ", error)
     );
 };
 
-export const getWatchlist = async userId => {
+export const getWatchlist = async (userId) => {
   const watchlist = [];
 
   const snapshot = await firestore
@@ -82,7 +82,7 @@ export const getWatchlist = async userId => {
     .collection("watchlist")
     .get();
 
-  snapshot.forEach(doc => watchlist.push(doc.data()));
+  snapshot.forEach((doc) => watchlist.push(doc.data()));
 
   return watchlist;
 };

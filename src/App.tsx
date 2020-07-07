@@ -1,7 +1,7 @@
-import React, { useState, useEffect, CSSProperties, FC } from "react";
+import React, { useState, useEffect, useContext, CSSProperties } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import AuthenticationContext from "./contexts/authentication-context/context";
 
 // components
 import SignIn from "./components/sign_in/sign_in";
@@ -20,17 +20,10 @@ const styles: CSSProperties = {
   height: "calc(100vh - 80px)",
 };
 
-export type User = {
-  id: string;
-  displayName: string;
-  email: string;
-  createdAt: Date;
-};
-
 const App = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const location = useLocation();
+  const { isAuthenticated } = useContext(AuthenticationContext);
 
   // This piece of state is set when one of the
   // gallery links is clicked. The `background` state
@@ -40,31 +33,6 @@ const App = () => {
   // we show the gallery in the background, behind
   // the modal.
   let locationState = location.state as any;
-
-  useEffect(() => {
-    const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        if (userRef) {
-          userRef.onSnapshot((snapshot) => {
-            const { displayName, email, createdAt } = snapshot.data() as User;
-            setCurrentUser({
-              id: snapshot.id,
-              displayName,
-              email,
-              createdAt,
-            });
-          });
-        }
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    return () => {
-      unsubscribeFromAuth();
-    };
-  }, []);
 
   useEffect(() => {
     handleResize();
@@ -96,7 +64,7 @@ const App = () => {
         {showSidebar ? (
           <ErrorBoundary>
             <Sidebar toggleSidebar={toggleSidebar}>
-              <Navbar currentUser={currentUser} />
+              <Navbar />
             </Sidebar>
           </ErrorBoundary>
         ) : null}
@@ -105,21 +73,25 @@ const App = () => {
             <Route
               exact
               path="/signin"
-              render={() => (currentUser ? <Redirect to="/" /> : <SignIn />)}
+              render={() =>
+                isAuthenticated ? <Redirect to="/" /> : <SignIn />
+              }
             />
             <Route
               exact
               path="/register"
-              render={() => (currentUser ? <Redirect to="/" /> : <SignUp />)}
+              render={() =>
+                isAuthenticated ? <Redirect to="/" /> : <SignUp />
+              }
             />
             <Route exact path="/">
               <Redirect from="/" to="trending" />
             </Route>
             <Route path="/watchlist">
-              <WatchList user={currentUser} />
+              <WatchList />
             </Route>
             <Route path="/:category">
-              <MainContent user={currentUser} />
+              <MainContent />
             </Route>
           </Switch>
           {locationState && locationState.background && (

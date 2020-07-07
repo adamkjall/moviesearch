@@ -1,15 +1,12 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { firestore, getWatchlist } from "../../firebase/firebase.utils";
+import AuthenticationContext from "../../contexts/authentication-context/context";
+
+import { firestore } from "../../firebase/firebase.utils";
 
 import Movie from "../movie/movie";
 
-import { User } from "../../App";
-
 import "./watchlist.styles.scss";
-interface Props {
-  user: User | null;
-}
 
 type IMovie = {
   id: number;
@@ -17,26 +14,26 @@ type IMovie = {
   poster_path: string;
 };
 
-const WatchList = ({ user }: Props) => {
+const WatchList = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
+  const { user } = useContext(AuthenticationContext);
 
   useEffect(() => {
-    if (user) {
-      firestore
-        .collection("users")
-        .doc(`${user.id}`)
-        .collection("watchlist")
-        .onSnapshot((snapshot) => {
-          const watchlist: IMovie[] = [];
-          snapshot.forEach((doc) => {
-            const movie = doc.data() as IMovie;
-            watchlist.push(movie);
-          });
-          setMovies(watchlist);
+    if (!user) return;
+    const unsubscribe = firestore
+      .collection("users")
+      .doc(`${user.id}`)
+      .collection("watchlist")
+      .onSnapshot((snapshot) => {
+        const watchlist: IMovie[] = [];
+        snapshot.forEach((doc) => {
+          const movie = doc.data() as IMovie;
+          watchlist.push(movie);
         });
-    } else {
-      setMovies([]);
-    }
+        setMovies(watchlist);
+      });
+
+    return () => unsubscribe();
   }, [user]);
 
   return (
@@ -45,7 +42,6 @@ const WatchList = ({ user }: Props) => {
         {movies.map((movie) => (
           <Movie
             key={movie.id}
-            user={user}
             id={movie.id}
             rating={movie.rating}
             poster={movie.poster_path}

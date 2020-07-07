@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { auth } from "../../firebase/firebase.utils";
+import AuthenticationContext from "../../contexts/authentication-context/context";
 
 import "./navbar.styles.css";
 
-interface IProps {
-  currentUser: any;
-}
+const Navbar = () => {
+  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const { isAuthenticated, logout } = useContext(AuthenticationContext);
 
-class Navbar extends React.Component<IProps> {
-  componentDidMount() {
+  useEffect(() => {
     const li: any = document.querySelectorAll("li");
 
     for (let i = 0; i < li.length; i++) {
@@ -21,46 +20,60 @@ class Navbar extends React.Component<IProps> {
         e.target.classList.add("active");
       });
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <nav>
-        <ul>
-          <Link to="/trending">
-            <li>Trending</li>
-          </Link>
-          <Link to="/popular">
-            <li>Popular</li>
-          </Link>
-          <Link to="/new">
-            <li>New</li>
-          </Link>
-          <hr></hr>
-          {this.props.currentUser ? (
-            <>
-              <Link to="/watchlist">
-                <li>Watchlist</li>
-              </Link>
-              <li>Reviews</li>
-              <li>Account</li>
-              <li>Settings</li>
-              <li onClick={() => auth.signOut()}>Log out</li>
-            </>
-          ) : (
-            <>
-              <Link to="/signin">
-                <li>Log in</li>
-              </Link>
-              <Link to="/register">
-                <li>Register</li>
-              </Link>
-            </>
-          )}
-        </ul>
-      </nav>
-    );
-  }
-}
+  return (
+    <nav>
+      <ul>
+        <Link to="/trending" onClick={() => setActiveTab("trending")}>
+          <li className={activeTab === "trending" ? "active" : ""}>Trending</li>
+        </Link>
+        <Link to="/popular" onClick={() => setActiveTab("popular")}>
+          <li className={activeTab === "popular" ? "active" : ""}>Popular</li>
+        </Link>
+        <Link to="/new" onClick={() => setActiveTab("new")}>
+          <li className={activeTab === "new" ? "active" : ""}>New</li>
+        </Link>
+        <hr></hr>
+        {isAuthenticated ? (
+          <>
+            <Link to="/watchlist" onClick={() => setActiveTab("watchlist")}>
+              <li className={activeTab === "watchlist" ? "active" : ""}>
+                Watchlist
+              </li>
+            </Link>
+            <Link to="/reviews" onClick={() => setActiveTab("reviews")}>
+              <li className={activeTab === "reviews" ? "active" : ""}>
+                Reviews
+              </li>
+            </Link>
+            <Link to="/account" onClick={() => setActiveTab("account")}>
+              <li className={activeTab === "account" ? "active" : ""}>
+                Account
+              </li>
+            </Link>
+            <Link to="/settings" onClick={() => setActiveTab("settings")}>
+              <li className={activeTab === "settings" ? "active" : ""}>
+                Settings
+              </li>
+            </Link>
+            <li onClick={logout}>Log out</li>
+          </>
+        ) : (
+          <>
+            <Link to="/signin" onClick={() => setActiveTab("signin")}>
+              <li className={activeTab === "signin" ? "active" : ""}>Log in</li>
+            </Link>
+            <Link to="/register" onClick={() => setActiveTab("register")}>
+              <li className={activeTab === "register" ? "active" : ""}>
+                Register
+              </li>
+            </Link>
+          </>
+        )}
+      </ul>
+    </nav>
+  );
+};
 
 export default Navbar;
