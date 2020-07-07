@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./custom_buttom.styles.scss";
+import "./styles.scss";
 
 interface IProps {
   childlren?: React.ReactNode;
@@ -17,7 +17,7 @@ const CustomButton: React.FC<IProps> = ({
   isGoogleSignIn,
   inverted,
   type,
-  handleClick
+  handleClick,
 }) => (
   <button
     className={`${inverted ? "inverted" : ""} ${

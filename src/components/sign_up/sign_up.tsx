@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
-import FormInput from "../form_input/form_input";
-import CustomButton from "../custom_button/custom_button";
+import FormInput from "../form-input";
+import CustomButton from "../custom-button";
 
 import "./sign_up.styles.scss";
 
@@ -19,14 +19,14 @@ const SignUp = () => {
     displayName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setState({
       ...state,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -44,8 +44,7 @@ const SignUp = () => {
         state.password
       );
 
-      await createUserProfileDocument(user, {displayName: state.displayName});
-      
+      await createUserProfileDocument(user, { displayName: state.displayName });
     } catch (error) {
       console.log("Error while sign up", error.message);
     }

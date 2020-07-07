@@ -10,7 +10,7 @@ import {
   baseImgUrl,
 } from "../../utils/themoviedb-api";
 
-import CastList from "../cast_list/cast_list";
+import CastList from "../cast-list";
 import TrailerList from "../trailer_list/trailer_list";
 import MovieOverview from "../movie_overview/movie_overview";
 

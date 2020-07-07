@@ -1,10 +1,10 @@
-import React, { ReactElement } from "react";
+import React from "react";
 
 import "./sidebar.styles.scss";
 
 interface Props {
   toggleSidebar: () => void;
-  children: ReactElement;
+  children: React.ReactNode;
 }
 
 const Sidebar = ({ children, toggleSidebar }: Props) => {

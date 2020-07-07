@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { createPortal } from "react-dom";
 
-import { StyledModal } from "./style";
+import { StyledModal } from "./styles";
 
 interface Props {
   onClose?: () => void;

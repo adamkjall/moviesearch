@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import "./movie.styles.css";
+import "./styles.css";
 
 interface IProps {
   id: number;

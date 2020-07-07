@@ -4,7 +4,7 @@ import AuthenticationContext from "../../contexts/authentication-context/context
 
 import { firestore } from "../../firebase/firebase.utils";
 
-import Movie from "../movie/movie";
+import Movie from "../movie";
 
 import "./watchlist.styles.scss";
 

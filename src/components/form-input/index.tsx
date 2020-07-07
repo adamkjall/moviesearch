@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./form_input.styles.scss";
+import "./styles.scss";
 
 interface IProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,7 +16,7 @@ const FormInput: React.FC<IProps> = ({
   label,
   value,
   name,
-  type
+  type,
 }) => (
   <div className="group">
     <input

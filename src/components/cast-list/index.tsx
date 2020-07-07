@@ -3,7 +3,7 @@ import React, { useState, FC } from "react";
 import { ICastMember } from "../movie_details/movie_details";
 import { baseImgUrl } from "../../utils/themoviedb-api";
 
-import "./cast_list.styles.scss";
+import "./styles.scss";
 
 interface IProps {
   cast: Array<ICastMember>;

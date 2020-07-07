@@ -14,13 +14,13 @@ class ErrorBoundary extends React.Component<IProps, IState> {
 
     this.state = {
       error: null,
-      errorInfo: null
+      errorInfo: null,
     };
   }
 
   static getDerivedStateFromError(error: any) {
     return {
-      error
+      error,
     };
   }
 
@@ -51,7 +51,7 @@ const styles: CSSProperties = {
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "pink",
-  color: "black"
+  color: "black",
 };
 
 export default ErrorBoundary;

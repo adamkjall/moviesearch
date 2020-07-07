@@ -8,7 +8,7 @@ import logo from "../../assets/logo.png";
 import { faFolderMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./header.styles.css";
+import "./styles.css";
 
 interface Props {
   toggleSidebar: () => void;

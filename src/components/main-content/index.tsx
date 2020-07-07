@@ -6,9 +6,9 @@ import { fetchMovieFunction } from "../../utils/themoviedb-api";
 
 import { IMovie } from "../movie_details/movie_details";
 
-import Movie from "../movie/movie";
+import Movie from "../movie";
 
-import "./main_content.styles.css";
+import "./styles.css";
 
 interface State {
   movies: IMovie[];
