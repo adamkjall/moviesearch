@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import AuthenticationContext from "../../contexts/authentication-context/context";
@@ -8,19 +8,6 @@ import "./navbar.styles.css";
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const { isAuthenticated, logout } = useContext(AuthenticationContext);
-
-  useEffect(() => {
-    const li: any = document.querySelectorAll("li");
-
-    for (let i = 0; i < li.length; i++) {
-      li[i].addEventListener("click", (e: any) => {
-        for (let i = 0; i < li.length; i++) {
-          li[i].classList.remove("active");
-        }
-        e.target.classList.add("active");
-      });
-    }
-  }, []);
 
   return (
     <nav>
