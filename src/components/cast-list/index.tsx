@@ -1,7 +1,7 @@
 import React, { useState, FC } from "react";
 
-import { ICastMember } from "../movie_details/movie_details";
-import { baseImgUrl } from "../../utils/themoviedb-api";
+import { ICastMember } from "../movie-details";
+import { baseImgUrl } from "../../the-movie-db/themoviedb-api";
 
 import "./styles.scss";
 

@@ -1,6 +1,8 @@
 import React from "react";
+
 import Logo from "../../assets/avatar.png";
-import "./profile.styles.css";
+
+import "./styles.css";
 
 class Profile extends React.Component {
   render() {

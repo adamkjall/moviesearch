@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import "./movie_overview.styles.scss";
+import "./styles.scss";
 
 interface IProps {
   genres: string;
@@ -13,7 +13,7 @@ const MovieOverview: FC<IProps> = ({
   genres,
   runtime,
   voteAverage,
-  overview
+  overview,
 }) => (
   <div className="movie-overview">
     <h2 className="title">Details</h2>

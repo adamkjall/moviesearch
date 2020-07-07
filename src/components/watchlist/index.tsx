@@ -6,7 +6,7 @@ import { firestore } from "../../firebase/firebase.utils";
 
 import Movie from "../movie";
 
-import "./watchlist.styles.scss";
+import "./styles.scss";
 
 type IMovie = {
   id: number;

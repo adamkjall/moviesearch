@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import "./searchbar.styles.css";
+import "./styles.css";
 
 interface Props extends RouteComponentProps {
   value: string;

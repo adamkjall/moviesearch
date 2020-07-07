@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import AuthenticationContext from "../../contexts/authentication-context/context";
 
-import "./navbar.styles.css";
+import "./styles.css";
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import SearchBar from "../searchbar/searchbar";
+import SearchBar from "../searchbar";
 
 import { Spring, config } from "react-spring/renderprops";
 

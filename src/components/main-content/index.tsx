@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
-import { fetchMovieFunction } from "../../utils/themoviedb-api";
+import { fetchMovieFunction } from "../../the-movie-db/themoviedb-api";
 
-import { IMovie } from "../movie_details/movie_details";
+import { IMovie } from "../movie-details";
 
 import Movie from "../movie";
 

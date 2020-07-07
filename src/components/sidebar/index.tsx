@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./sidebar.styles.scss";
+import "./styles.scss";
 
 interface Props {
   toggleSidebar: () => void;

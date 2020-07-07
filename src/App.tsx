@@ -4,16 +4,16 @@ import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import AuthenticationContext from "./contexts/authentication-context/context";
 
 // components
-import SignIn from "./components/sign_in/sign_in";
-import SignUp from "./components/sign_up/sign_up";
+import SignIn from "./components/sign-in";
+import SignUp from "./components/sign-up";
 import Header from "./components/header";
-import Sidebar from "./components/sidebar/sidebar";
+import Sidebar from "./components/sidebar";
 import MainContent from "./components/main-content";
-import Navbar from "./components/navbar/navbar";
+import Navbar from "./components/navbar";
 import ErrorBoundary from "./components/error-boundary";
-import WatchList from "./components/watchlist/watchlist";
+import WatchList from "./components/watchlist";
 import Modal from "./components/modal";
-import MovieDetails from "./components/movie_details/movie_details";
+import MovieDetails from "./components/movie-details";
 
 const styles: CSSProperties = {
   display: "flex",

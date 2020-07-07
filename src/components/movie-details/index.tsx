@@ -8,13 +8,13 @@ import {
   getMovieDetails,
   getCast,
   baseImgUrl,
-} from "../../utils/themoviedb-api";
+} from "../../the-movie-db/themoviedb-api";
 
 import CastList from "../cast-list";
-import TrailerList from "../trailer_list/trailer_list";
-import MovieOverview from "../movie_overview/movie_overview";
+import TrailerList from "../trailer-list";
+import MovieOverview from "../movie-overview";
 
-import "./movie_details.styles.scss";
+import "./styles.scss";
 
 interface IProps extends RouteComponentProps {}
 

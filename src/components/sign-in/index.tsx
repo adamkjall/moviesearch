@@ -5,7 +5,7 @@ import CustomButton from "../custom-button";
 
 import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
-import "./sign_in.styles.scss";
+import "./styles.scss";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

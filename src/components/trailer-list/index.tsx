@@ -2,23 +2,22 @@ import React, { FC } from "react";
 
 import Iframe from "react-iframe";
 
-import { IVideo } from "../movie_details/movie_details";
+import { IVideo } from "../movie-details";
 
-import "./trailer_list.styles.scss";
+import "./styles.scss";
 
 interface IProps {
   trailers?: IVideo[];
 }
 
 const TrailerList: FC<IProps> = ({ trailers }) => {
-
   if (trailers && trailers.length === 0) return null;
 
   return (
     <div className="trailer-list-container">
       <h2 className="title">Trailers</h2>
       <div className="trailer-list">
-        {trailers?.slice(0, 3).map(trailer => (
+        {trailers?.slice(0, 3).map((trailer) => (
           <Iframe
             height="100%"
             width="100%"
