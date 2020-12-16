@@ -47,6 +47,8 @@ const MainContent = () => {
     });
   }, [category, location.search]);
 
+  console.log("testing");
+
   const loadMoreMovies = () => {
     setState((state) => ({ ...state, loading: true }));
     const nextPage = state.page + 1;
