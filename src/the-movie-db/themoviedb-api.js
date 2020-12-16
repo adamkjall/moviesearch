@@ -92,11 +92,7 @@ export const getVideos = async (movieId) => {
   }
 };
 
-export const fetchMovieFunction = (
-  category = "trending",
-  page = 1,
-  query = " "
-) => {
+export const fetchMovies = (category = "trending", page = 1, query = " ") => {
   switch (category) {
     case "search":
       return searchMovie(query, page);

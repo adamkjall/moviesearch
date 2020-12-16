@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import { useInfiniteScroll } from "react-infinite-scroll-hook";
-import { fetchMovieFunction } from "../../the-movie-db/themoviedb-api";
+import { fetchMovies } from "../../the-movie-db/themoviedb-api";
 
 import { IMovie } from "../movie-details";
 
@@ -26,7 +26,7 @@ const initialState = {
 
 const MainContent = () => {
   const [state, setState] = useState<State>(initialState);
-  const { category } = useParams();
+  const { category } = useParams<{ category: string }>();
   const location = useLocation();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const MainContent = () => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("query") || "";
 
-    fetchMovieFunction(category, 1, query).then((data) => {
+    fetchMovies(category, 1, query).then((data) => {
       if (!data) return;
 
       const hasNext = data.page < data.total_pages;
@@ -53,7 +53,7 @@ const MainContent = () => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("query") || "";
 
-    fetchMovieFunction(category, nextPage, query).then((data) => {
+    fetchMovies(category, nextPage, query).then((data) => {
       if (!data) return;
 
       const hasNext = data.page < data.total_pages;

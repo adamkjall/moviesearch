@@ -5,7 +5,7 @@ import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 import FormInput from "../form-input";
 import CustomButton from "../custom-button";
 
-import "./sign_up.styles.scss";
+import "./styles.scss";
 
 interface IState {
   displayName: string;
